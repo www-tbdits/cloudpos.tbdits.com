@@ -1,27 +1,242 @@
-<div class="section" style="background:none; padding:20px; border-radius:12px; box-shadow:0 4px 8px rgba(0,0,0,0.1);">
-  <h2 style="color:#2c5ca9; font-size:22px; margin-bottom:10px;">Contact Support</h2>
-  
-  <p style="font-size:15px; line-height:1.6;">
-    If you have any questions or face any issues while using Cloud POS, we are always ready to help. 
-    You can easily reach out to us through any of the following channels:
-  </p>
-  
-  <ul style="list-style-type:none; padding-left:0; font-size:14px; line-height:1.6;">
-    <li><strong> Phone:</strong> +880 9638 665205 | +880 1516 573873 | +880 1323 056735</li>
-    <li><strong> Email:</strong> <a href="mailto:info.techbditsolutions@gmail.com" style="color:#1abc9c;">info.techbditsolutions@gmail.com</a></li>
-    <li><strong> Facebook:</strong> <a href="https://www.facebook.com/techbditsolutions" target="_blank" style="color:#1abc9c;">techbditsolutions</a></li>
-    <li><strong> Dashboard :</strong> <a href="https://www-tbdits.github.io/cloudpos.tbdits.com/Dashboard.html" target="_blank" style="color:#1abc9c;">Cloud POS Dashboard</a></li>
-    <li><strong> Address:</strong> Bangladesh, Dhaka-1205</li>
-  </ul>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Help</title>
+<style>
+  body{
+    margin:0;
+    padding:0;
+    background:#f6f7f9;
+    font-family:"Inter", "Segoe UI", Arial, sans-serif;
+  }
 
-  <p style="margin-top:15px; font-size:14px; color:#555;">
-    We strive to resolve every user issue promptly. 
-    Your feedback helps us improve. 
-    If you encounter any difficulties while using Cloud POS, please do not hesitate to contact us.
-  </p>
+  .msg-box{
+    max-width:1200px;
+    margin:5px auto;
+    background:#ffffff;
+    padding:32px;
+    border-radius:8px;
+    border:1px solid #dfe3e8;
+    box-shadow:0 4px 18px rgba(0,0,0,0.06);
+  }
 
-  <p style="margin-top:10px; font-size:14px; color:#555;">
-    Thank you, <br>
-    <strong>Tech BD IT Solutions Team</strong>
-  </p>
+  .msg-title{
+    font-size:20px;
+    font-weight:600;
+    margin-bottom:18px;
+    color:#1c3d74;
+  }
+
+  .msg-content p{
+    font-size:15px;
+    color:#333;
+    line-height:1.65;
+    margin-bottom:16px;
+  }
+
+  .msg-content ul{
+    list-style:none;
+    padding-left:0;
+    margin-bottom:18px;
+  }
+
+  .msg-content ul li{
+    padding:6px 10;
+    font-size:15px;
+    color:#333;
+  }
+
+  a{
+    color:#0a6acb;
+    text-decoration:none;
+  }
+
+  .divider{
+    height:1px;
+    background:#e4e7eb;
+    margin:28px 0;
+    border:none;
+  }
+
+  .update-box{
+    background:# ;
+    border:1px solid #e2e6ea;
+    padding:18px;
+    border-radius:6px;
+  }
+
+  .update-btn{
+    color:#fff;
+    border:none;
+    padding:12px 26px;
+    border-radius:6px;
+    font-size:16px;
+    font-weight:600;
+    cursor:pointer;
+    transition:0.25s;
+    margin-top:10px;
+    background-color: #0d1b3d; /* Normal deep color */
+    position: relative;
+  }
+
+  .update-btn:disabled{
+    cursor:not-allowed;
+    opacity:0.7;
+  }
+
+  .tooltip{
+    visibility:hidden;
+    background-color:#333;
+    color:#fff;
+    text-align:center;
+    border-radius:4px;
+    padding:4px 8px;
+    position:absolute;
+    top:-30px;
+    left:50%;
+    transform:translateX(-50%);
+    font-size:13px;
+    white-space:nowrap;
+    z-index:10;
+  }
+
+  .update-btn:hover .tooltip{
+    visibility:visible;
+  }
+
+  .loading-dot{
+    display:inline-block;
+    width:6px;
+    height:6px;
+    margin-left:3px;
+    background:#fff;
+    border-radius:50%;
+    animation:blink 1s infinite;
+  }
+
+  .loading-dot:nth-child(2){ animation-delay:0.2s; }
+  .loading-dot:nth-child(3){ animation-delay:0.4s; }
+
+  @keyframes blink{
+    0%,50%,100%{opacity:0;}
+    25%,75%{opacity:1;}
+  }
+
+  .notification{
+    margin-top:20px;
+    padding:12px;
+    background:#dff0d8;
+    border:1px solid #c3e6cb;
+    border-radius:6px;
+    color:#155724;
+    display:none;
+    font-size:15px;
+  }
+</style>
+</head>
+<body>
+
+<div class="msg-box">
+
+  <!-- Contact Support -->
+  <div class="msg-title">Contact Support</div>
+  <div class="msg-content">
+    <p>If you experience any issues or require assistance while using Cloud POS, our support team is available to help you. Contact us through:</p>
+    <ul>
+      <li><strong>Phone:</strong> +880 9638 665205 | +880 1516 573873 | +880 1323 056735</li>
+      <li><strong>Email:</strong> <a href="mailto:info.techbditsolutions@gmail.com">info.techbditsolutions@gmail.com</a></li>
+      <li><strong>Facebook:</strong> <a href="https://www.facebook.com/techbditsolutions" target="_blank">techbditsolutions</a></li>
+      <li><strong>Address:</strong> Bangladesh, Dhaka-1205</li>
+    </ul>
+    <p><strong>Tech BD IT Solutions Team</strong></p>
+  </div>
+
+  <hr class="divider">
+
+  <!-- Software Update -->
+  <div class="msg-title">Software Update</div>
+  <div class="update-box">
+    <p>Check for updates below. The update button will become active when an update is available.</p>
+    <button id="updateBtn" class="update-btn">
+      Update
+      <span class="tooltip">Click to update</span>
+    </button>
+    <p id="updateStatus"></p>
+    <div class="notification" id="notification">Update available now!</div>
+  </div>
+
 </div>
+<script>
+const UPDATE_DELAY_SEC = 86400; // 1 day until update available
+const updateBtn = document.getElementById("updateBtn");
+const statusEl = document.getElementById("updateStatus");
+const notification = document.getElementById("notification");
+
+// Load saved version
+let major=1, minor=0, patch=0;
+if(localStorage.getItem('cloudPOSVersion')){
+    let saved = localStorage.getItem('cloudPOSVersion').split('.');
+    major=parseInt(saved[0]); minor=parseInt(saved[1]); patch=parseInt(saved[2]);
+}
+
+// Load last update timestamp
+let lastUpdateTime = parseInt(localStorage.getItem('cloudPOSLastUpdate')) || 0;
+
+// Get remaining seconds until update available
+function getRemainingSeconds(){
+    const now = new Date().getTime();
+    const elapsed = Math.floor((now - lastUpdateTime)/1000);
+    return Math.max(UPDATE_DELAY_SEC - elapsed,0);
+}
+
+// Update button state & color
+function updateButtonState(){
+    const remaining = getRemainingSeconds();
+
+    // Always show current version
+    statusEl.innerHTML = `Current version: v${major}.${minor}.${patch}`;
+
+    if(remaining > 0){
+        updateBtn.disabled = true;
+        updateBtn.style.backgroundColor = "#28a745"; // green
+        notification.style.display = "none";
+    } else {
+        updateBtn.disabled = false;
+        updateBtn.style.backgroundColor = "#e74c3c"; // red
+        notification.style.display = "block"; // show update notification
+    }
+}
+
+// Real-time countdown
+setInterval(updateButtonState, 500);
+
+// Update button click
+updateBtn.addEventListener("click", function(){
+    updateBtn.disabled = true;
+    updateBtn.style.backgroundColor = "#34495e"; // loading dark
+    statusEl.innerHTML = "Updating...";
+
+    setTimeout(()=>{
+        // Update version
+        patch++;
+        if(patch >= 100){ patch = 0; minor++; }
+        const version = `${major}.${minor}.${patch}`;
+
+        // Save version & timestamp
+        localStorage.setItem('cloudPOSVersion', version);
+        lastUpdateTime = new Date().getTime();
+        localStorage.setItem('cloudPOSLastUpdate', lastUpdateTime);
+
+        // Reset button & status
+        updateBtn.style.backgroundColor = "#28a745"; // green again
+        statusEl.innerHTML = `Current version: v${version}`; // always visible
+        notification.style.display = "none";
+
+    }, 2000); // simulate 2 second loading
+});
+</script>
+
+</body>
+</html>
