@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Customer Management</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+<style>
+/* -------------------- Global Styles -------------------- */
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    background: #f4f6f9;
+}
+
+header {
+    background-color: #3742a1;
+    color: white;
+    text-align: center;
+    padding: 1rem;
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.container {
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 1rem;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    overflow-x: auto;
+}
+
+/* -------------------- Buttons -------------------- */
+.add-btn {
+    position: fixed;
+    top: 110px;
+    right: 20px;
+    padding: 0.5rem 1rem;
+    background-color: #1f8ef1;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 500;
+    z-index: 1000;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+.add-btn:hover { background-color: #0c6cd1; }
+
+/* -------------------- Search Box -------------------- */
+.search-box {
+    margin: 1rem 0;
+}
+.search-box input {
+    width: 100%;
+    padding: 0.5rem;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+}
+
+/* -------------------- Table -------------------- */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+table th, table td {
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    text-align: left;
+    font-size: 0.9rem;
+}
+table th {
+    background-color: #f0f4f8;
+}
+
+/* -------------------- Actions Dropdown -------------------- */
+.actions { position: relative; }
+.action-btn {
+    padding: 0.3rem 0.7rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    background-color: #1f8ef1;
+    color: white;
+}
+.action-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    z-index: 10;
+    flex-direction: column;
+    min-width: 120px;
+}
+.action-menu button {
+    background: none;
+    color: #333;
+    border: none;
+    padding: 0.5rem;
+    text-align: left;
+    cursor: pointer;
+    width: 100%;
+}
+.action-menu button:hover { background: #f0f0f0; }
+
+/* -------------------- Modal -------------------- */
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background-color: rgba(0,0,0,0.5);
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+}
+.modal-content {
+    background: white;
+    padding: 1.5rem;
+    width: 800px;
+    max-width: 95%;
+    border-radius: 10px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+.close-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #ff4757;
+    font-weight: bold;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+}
+
+/* -------------------- Modal Buttons -------------------- */
+.modal-buttons {
+    text-align: center;
+    margin-top: 1rem;
+}
+.modal-buttons button {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    margin: 0.3rem;
+    color: white;
+    font-size: 0.9rem;
+}
+.save-btn { background-color: #1f8ef1; }
+.save-btn:hover { background-color: #0c6cd1; }
+.close-btn { background-color: #ff4757; }
+.close-btn:hover { background-color: #e03e4f; }
+
+/* -------------------- Form -------------------- */
+.form-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+.form-group {
+    flex: 1 1 45%;
+    display: flex;
+    flex-direction: column;
+}
+.form-group label {
+    font-weight: 500;
+    margin-bottom: 0.3rem;
+}
+.form-group label .required { color: red; }
+.form-group input,
+.form-group select {
+    padding: 0.5rem;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+</style>
+</head>
+<body>
+
+<header>Customer Management</header>
+
+<div class="container">
+    <h2>Customer List</h2>
+
+    <button class="add-btn" id="openModalBtn">Add Customer</button>
+
+    <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Search...">
+    </div>
+
+    <table id="customerTable">
+        <thead>
+            <tr>
+                <th>SL</th>
+                <th>Customer Type</th>
+                <th>Contact No</th>
+                <th>Card No</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Gender</th>
+                <th>Address</th>
+                <th>City</th>
+                <th>Country</th>
+                <th>Shipping Address</th>
+                <th>Discount %</th>
+                <th>Store</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Rows will be dynamically added here -->
+        </tbody>
+    </table>
+</div>
+
+<!-- Modal -->
+<div class="modal" id="customerModal">
+    <div class="modal-content">
+        <button class="close-icon" id="closeModalBtn">&times;</button>
+        <h3 id="modalTitle">Add Customer</h3>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label>Customer Type <span class="required">*</span></label>
+                <select id="customerType">
+                    <option value="">Select</option>
+                    <option>Wholesale</option>
+                    <option>Employee</option>
+                    <option>Membership</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Contact No <span class="required">*</span></label>
+                <input type="text" id="contact" placeholder="Contact No">
+            </div>
+
+            <div class="form-group">
+                <label>Card No</label>
+                <input type="text" id="cardNo" placeholder="Card No">
+            </div>
+
+            <div class="form-group">
+                <label>First Name <span class="required">*</span></label>
+                <input type="text" id="firstName" placeholder="First Name">
+            </div>
+
+            <div class="form-group">
+                <label>Last Name</label>
+                <input type="text" id="lastName" placeholder="Last Name">
+            </div>
+
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" id="email" placeholder="Email">
+            </div>
+
+            <div class="form-group">
+                <label>Gender <span class="required">*</span></label>
+                <select id="gender">
+                    <option value="">Select</option>
+                    <option>Male</option>
+                    <option>Female</option>
+                    <option>Other</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Address</label>
+                <input type="text" id="address" placeholder="Address">
+            </div>
+
+            <div class="form-group">
+                <label>Country <span class="required">*</span></label>
+                <select id="country"></select>
+            </div>
+
+            <div class="form-group">
+                <label>City <span class="required">*</span></label>
+                <select id="city"></select>
+            </div>
+
+            <div class="form-group">
+                <label>Shipping Address</label>
+                <input type="text" id="shippingAddress" placeholder="Shipping Address">
+            </div>
+
+            <div class="form-group">
+                <label>Discount %</label>
+                <input type="number" id="discount" placeholder="Discount %" readonly>
+            </div>
+
+            <div class="form-group">
+                <label>Store <span class="required">*</span></label>
+                <select id="store">
+                    <option value="">Select</option>
+                    <option>Centre Warehouse</option>
+                    <option>Others Outlet</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Status <span class="required">*</span></label>
+                <select id="status">
+                    <option value="">Select</option>
+                    <option>ACTIVE</option>
+                    <option>INACTIVE</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="modal-buttons">
+            <button class="save-btn" id="saveCustomerBtn">Save</button>
+            <button class="close-btn" id="closeModalBtn2">Close</button>
+        </div>
+    </div>
+</div>
+
+<script>
+// ------------------- JavaScript -------------------
+
+// Countries & Bangladesh districts
+const countries = ["Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Antigua and Barbuda", "Argentina", "Armenia", "Australia", "Austria",
+"Azerbaijan", "Bahamas", "Bahrain", "Bangladesh", "Barbados", "Belarus", "Belgium", "Belize", "Benin", "Bhutan",
+"Bolivia", "Bosnia and Herzegovina", "Botswana", "Brazil", "Brunei", "Bulgaria", "Burkina Faso", "Burundi", "Cabo Verde", "Cambodia",
+"Cameroon", "Canada", "Central African Republic", "Chad", "Chile", "China", "Colombia", "Comoros", "Congo (Congo-Brazzaville)", "Costa Rica",
+"Croatia", "Cuba", "Cyprus", "Czechia (Czech Republic)", "Democratic Republic of the Congo", "Denmark", "Djibouti", "Dominica", "Dominican Republic", "Ecuador",
+"Egypt", "El Salvador", "Equatorial Guinea", "Eritrea", "Estonia", "Eswatini", "Ethiopia", "Fiji", "Finland", "France",
+"Gabon", "Gambia", "Georgia", "Germany", "Ghana", "Greece", "Grenada", "Guatemala", "Guinea", "Guinea-Bissau",
+"Guyana", "Haiti", "Honduras", "Hungary", "Iceland", "India", "Indonesia", "Iran", "Iraq", "Ireland",
+"Israel", "Italy", "Jamaica", "Japan", "Jordan", "Kazakhstan", "Kenya", "Kiribati", "Kuwait", "Kyrgyzstan",
+"Laos", "Latvia", "Lebanon", "Lesotho", "Liberia", "Libya", "Liechtenstein", "Lithuania", "Luxembourg", "Madagascar",
+"Malawi", "Malaysia", "Maldives", "Mali", "Malta", "Marshall Islands", "Mauritania", "Mauritius", "Mexico", "Micronesia",
+"Moldova", "Monaco", "Mongolia", "Montenegro", "Morocco", "Mozambique", "Myanmar", "Namibia", "Nauru", "Nepal",
+"Netherlands", "New Zealand", "Nicaragua", "Niger", "Nigeria", "North Korea", "North Macedonia", "Norway", "Oman", "Pakistan",
+"Palau", "Palestine", "Panama", "Papua New Guinea", "Paraguay", "Peru", "Philippines", "Poland", "Portugal", "Qatar",
+"Romania", "Russia", "Rwanda", "Saint Kitts and Nevis", "Saint Lucia", "Saint Vincent and the Grenadines", "Samoa", "San Marino", "Sao Tome and Principe", 
+"Saudi Arabia","Senegal", "Serbia", "Seychelles", "Sierra Leone", "Singapore", "Slovakia", "Slovenia", "Solomon Islands", "Somalia", "South Africa",
+"South Korea", "South Sudan", "Spain", "Sri Lanka", "Sudan", "Suriname", "Sweden", "Switzerland", "Syria", "Taiwan",
+"Tajikistan", "Tanzania", "Thailand", "Timor-Leste", "Togo", "Tonga", "Trinidad and Tobago", "Tunisia", "Turkey", "Turkmenistan",
+"Tuvalu", "Uganda", "Ukraine", "United Arab Emirates", "United Kingdom", "United States", "Uruguay", "Uzbekistan", "Vanuatu", "Vatican City",
+"Venezuela", "Vietnam", "Yemen", "Zambia", "Zimbabwe"];
+const bdDistricts = ["Bagerhat", "Barguna", "Bhola", "Bogra", "Bandarban", "Brahmanbaria", "Chandpur", "Chittagong", "Chuadanga", "Comilla", "Cox's Bazar", 
+"Dinajpur", "Dhaka", "Faridpur", "Feni", "Gaibandha", "Gopalganj", "Habiganj", "Jessore", "Jhenaidah", "Joypurhat", "Kishoreganj", "Khagrachhari", "Kurigram", 
+"Kushtia", "Lalmonirhat", "Lakshmipur", "Madaripur", "Magura", "Manikganj", "Meherpur", "Munshiganj", "Moulvibazar", "Narayanganj", "Narail", "Narsingdi", "Natore", 
+"Naogaon", "Nilphamari", "Noakhali", "Pabna", "Panchagarh", "Patuakhali", "Pirojpur", "Rajbari", "Rajshahi", "Rangamati", "Rangpur", "Satkhira", "Shariatpur", 
+"Sirajganj", "Sunamganj", "Sylhet", "Tangail"];
+
+const countrySelect = document.getElementById('country');
+const citySelect = document.getElementById('city');
+
+// Populate countries
+countries.forEach(c => { let o = new Option(c, c); countrySelect.add(o); });
+
+// Country change -> populate city
+countrySelect.addEventListener('change', () => {
+    citySelect.innerHTML = '<option value="">Select</option>';
+    if(countrySelect.value==="Bangladesh") bdDistricts.forEach(d=>citySelect.add(new Option(d,d)));
+    else if(countrySelect.value!=="") citySelect.add(new Option("N/A","N/A"));
+});
+
+// Discount auto
+const customerTypeSelect = document.getElementById('customerType');
+const discountInput = document.getElementById('discount');
+customerTypeSelect.addEventListener('change', () => {
+    discountInput.value = customerTypeSelect.value==="Employee"?15:customerTypeSelect.value==="Membership"?5:"";
+});
+
+// Modal
+const modal = document.getElementById('customerModal');
+document.getElementById('openModalBtn').onclick = () => { modal.style.display='flex'; clearForm(); };
+document.querySelectorAll('#closeModalBtn,#closeModalBtn2').forEach(b=>b.onclick=()=>modal.style.display='none');
+window.onclick = e => { if(e.target===modal) modal.style.display='none'; };
+
+// Clear form
+function clearForm() {
+    document.querySelectorAll('#customerModal input,#customerModal select').forEach(i=>i.value='');
+    discountInput.value='';
+    citySelect.innerHTML='<option value="">Select</option>';
+}
+
+// Validate form
+function validateForm() {
+    const req=['customerType','gender','firstName','contact','store','country','city','status'];
+    return req.every(id=>document.getElementById(id).value.trim()!=='');
+}
+
+// Table
+const tableBody = document.querySelector('#customerTable tbody');
+let editRow = null;
+
+// Save to localStorage
+function saveToLocalStorage() {
+    const data = Array.from(tableBody.rows).map(r => 
+        Array.from(r.cells).slice(1, 15).map(c => c.textContent)
+    );
+    localStorage.setItem('customers', JSON.stringify(data));
+}
+
+// Load
+function loadFromLocalStorage() {
+    const customers = JSON.parse(localStorage.getItem('customers') || '[]');
+    customers.forEach(data => {
+        const row = document.createElement('tr');
+        row.innerHTML = `<td></td>
+            ${data.map(d => `<td>${d}</td>`).join('')}
+            <td class="actions">
+                <button class="action-btn">Actions</button>
+                <div class="action-menu">
+                    <button class="edit-btn">Edit</button>
+                    <button class="print-btn">Print Card</button>
+                    <button class="delete-btn">Delete</button>
+                </div>
+            </td>`;
+        tableBody.appendChild(row);
+        addRowListeners(row);
+    });
+    updateSL();
+}
+
+// Update SL
+function updateSL(){ Array.from(tableBody.rows).forEach((r,i)=>r.cells[0].textContent=i+1); }
+
+// Row actions
+function addRowListeners(row){
+    const actionBtn=row.querySelector('.action-btn');
+    const menu=row.querySelector('.action-menu');
+    actionBtn.onclick = e => { menu.style.display = menu.style.display==='flex'?'none':'flex'; };
+
+    // ⭐ FIXED ⭐ Edit mapping corrected here
+    row.querySelector('.edit-btn').onclick = () => {
+        editRow=row;
+        document.getElementById('modalTitle').textContent="Edit Customer";
+
+        const ids = [
+            'customerType',
+            'contact',
+            'cardNo',
+            'firstName',
+            'lastName',
+            'email',
+            'gender',
+            'address',
+            'city',
+            'country',
+            'shippingAddress',
+            'discount',
+            'store',
+            'status'
+        ];
+
+        ids.forEach((id,i)=>document.getElementById(id).value=row.cells[i+1].textContent);
+
+        if(document.getElementById('country').value==="Bangladesh") countrySelect.dispatchEvent(new Event('change'));
+
+        modal.style.display='flex';
+        menu.style.display='none';
+    };
+
+    row.querySelector('.delete-btn').onclick = () => { if(confirm('Delete this customer?')) { row.remove(); saveToLocalStorage(); updateSL(); } };
+
+    row.querySelector('.print-btn').onclick = () => {
+        const cells=row.cells;
+        const card=`Customer: ${cells[3].textContent} ${cells[4].textContent}\nContact: ${cells[5].textContent}\nEmail: ${cells[6].textContent}\nType: ${cells[1].textContent}\nDiscount: ${cells[12].textContent}%`;
+        const win=window.open('','Print','width=400,height=400');
+        win.document.write('<pre>'+card+'</pre>'); win.document.close(); win.print();
+        menu.style.display='none';
+    };
+}
+
+// ⭐ FIXED ⭐ Save customer mapping corrected
+document.getElementById('saveCustomerBtn').onclick = () => {
+    if(!validateForm()){ alert('Fill all required fields!'); return; }
+    
+    const fields = [
+        'customerType',
+        'contact',
+        'cardNo',
+        'firstName',
+        'lastName',
+        'email',
+        'gender',
+        'address',
+        'city',
+        'country',
+        'shippingAddress',
+        'discount',
+        'store',
+        'status'
+    ];
+
+    const data = fields.map(id=>document.getElementById(id).value);
+    
+    let row;
+    if(editRow){
+        Array.from(editRow.cells).slice(1,15).forEach((c,i)=>c.textContent=data[i]);
+        editRow = null;
+    } else {
+        row=document.createElement('tr');
+        row.innerHTML = `<td></td>${data.map(d=>`<td>${d}</td>`).join('')}
+        <td class="actions">
+            <button class="action-btn">Actions</button>
+            <div class="action-menu">
+                <button class="edit-btn">Edit</button>
+                <button class="print-btn">Print Card</button>
+                <button class="delete-btn">Delete</button>
+            </div>
+        </td>`;
+        tableBody.appendChild(row);
+        addRowListeners(row);
+    }
+
+    updateSL(); 
+    saveToLocalStorage(); 
+    modal.style.display='none'; 
+    clearForm();
+};
+
+
+// Search
+document.getElementById('searchInput').addEventListener('keyup', () => {
+    const filter = document.getElementById('searchInput').value.toLowerCase();
+    Array.from(tableBody.rows).forEach(row => {
+        row.style.display = Array.from(row.cells).some(c => c.textContent.toLowerCase().includes(filter)) ? '' : 'none';
+    });
+});
+
+window.addEventListener('DOMContentLoaded', loadFromLocalStorage);
+</script>
+</body>
+</html>
