@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sales Report</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+body{
+    margin:0;
+    font-family:"Poppins",sans-serif;
+    background:#f1f4f9;
+    padding:30px;
+}
+
+/* WRAPPER */
+.report-container{
+    max-width:1450px;
+    margin:auto;
+    background:#fff;
+    padding:35px;
+    border-radius:16px;
+    box-shadow:0 10px 35px rgba(0,0,0,0.08);
+}
+
+/* HEADER */
+.report-title{
+    text-align:center;
+    font-size:34px;
+    font-weight:600;
+    color:#1e2b45;
+    margin-bottom:25px;
+}
+
+/* TABS */
+.tab-bar{
+    display:flex;
+    justify-content:center;
+    gap:12px;
+    margin-bottom:30px;
+}
+
+.tab-btn{
+    padding:12px 25px;
+    background:#e7ecf4;
+    border:none;
+    border-radius:8px;
+    font-size:15px;
+    cursor:pointer;
+    transition:.3s;
+    box-shadow:0 2px 4px rgba(0,0,0,0.05);
+}
+
+.tab-btn:hover{
+    background:#d4dceb;
+}
+
+.tab-btn.active{
+    background:#0066ff;
+    color:white;
+    box-shadow:0 4px 12px rgba(0,102,255,0.35);
+}
+
+/* SUMMARY CARDS */
+.summary-cards{
+    display:flex;
+    gap:25px;
+    margin-bottom:30px;
+}
+
+.card{
+    flex:1;
+    background:#f7f9fc;
+    padding:25px 30px;
+    border-radius:14px;
+    border:1px solid #eef1f7;
+    box-shadow:0 4px 10px rgba(0,0,0,0.05);
+    transition:.3s;
+}
+
+.card:hover{
+    transform:translateY(-4px);
+    box-shadow:0 8px 25px rgba(0,0,0,0.08);
+}
+
+.card-title{
+    font-size:15px;
+    color:#5b6472;
+}
+
+.card-value{
+    font-size:32px;
+    font-weight:600;
+    margin-top:5px;
+    color:#0066ff;
+}
+
+/* TABLE */
+.table-wrap{
+    margin-top:10px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    background:white;
+    border-radius:10px;
+    overflow:hidden;
+    box-shadow:0 4px 20px rgba(0,0,0,0.06);
+}
+
+th{
+    background:#0066ff;
+    color:white;
+    padding:14px;
+    text-align:center;
+    font-size:14px;
+}
+
+td{
+    padding:14px;
+    text-align:center;
+    border-bottom:1px solid #eef0f5;
+    font-size:14px;
+    color:#2f3a4a;
+}
+
+tr:hover{
+    background:#f3f7ff;
+}
+
+/* EXPORT BUTTONS */
+.export-box{
+    text-align:right;
+    margin-bottom:15px;
+}
+
+.export-btn{
+    padding:10px 22px;
+    background:#0066ff;
+    color:white;
+    border:none;
+    border-radius:8px;
+    margin-left:10px;
+    font-size:14px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.export-btn:hover{
+    background:#004ed1;
+}
+
+/* ANIMATION */
+.fade{
+    animation:fade .4s ease;
+}
+
+@keyframes fade{
+    from{opacity:0;}
+    to{opacity:1;}
+}
+</style>
+</head>
+<body>
+
+<div class="report-container">
+    
+    <h2 class="report-title">Sales Report</h2>
+
+    <!-- Tabs -->
+    <div class="tab-bar">
+        <button class="tab-btn active" onclick="switchTab('invoice')">Invoice Wise</button>
+        <button class="tab-btn" onclick="switchTab('counter')">Counter Wise</button>
+        <button class="tab-btn" onclick="switchTab('user')">User Wise</button>
+    </div>
+
+    <!-- Summary Cards -->
+    <div id="summary" class="summary-cards fade"></div>
+
+    <!-- Export Buttons -->
+    <div class="export-box">
+        <button class="export-btn" onclick="window.print()">Print</button>
+        <button class="export-btn" onclick="exportPDF()">PDF</button>
+        <button class="export-btn" onclick="exportExcel()">Excel</button>
+    </div>
+
+    <!-- Report Table -->
+    <div id="reportTable" class="table-wrap fade"></div>
+</div>
+
+<script>
+// CLEAN EMPTY REPORT — (dynamic)
+let sales = [];
+
+// POS থেকে ডাটা আসলে এখানে push করবেন
+function addSale(invoice,date,amount,counter,user){
+    sales.push({invoice,date,amount,counter,user});
+    switchTab('invoice');
+}
+
+// DEMO DATA (real POS এ নিজে পাঠাবেন)
+addSale("INV-101","2025-02-10",5000,"C1","Hasan");
+addSale("INV-102","2025-02-12",9000,"C3","Rafi");
+addSale("INV-103","2025-02-13",7500,"C2","Mizan");
+
+function switchTab(type){
+    document.querySelectorAll(".tab-btn").forEach(btn=>btn.classList.remove("active"));
+    event.target.classList.add("active");
+
+    if(type==="invoice") invoiceWise();
+    if(type==="counter") counterWise();
+    if(type==="user") userWise();
+}
+
+/* INVOICE WISE */
+function invoiceWise(){
+    let total=sales.reduce((a,b)=>a+b.amount,0);
+
+    document.getElementById("summary").innerHTML=`
+        <div class="card"><div class="card-title">Total Invoices</div><div class="card-value">${sales.length}</div></div>
+        <div class="card"><div class="card-title">Total Sales</div><div class="card-value">৳${total}</div></div>
+    `;
+
+    let t=`<table>
+        <tr><th>Invoice</th><th>Date</th><th>Amount</th><th>Counter</th><th>User</th></tr>
+    `;
+
+    sales.forEach(s=>{
+        t+=`<tr><td>${s.invoice}</td><td>${s.date}</td><td>৳${s.amount}</td><td>${s.counter}</td><td>${s.user}</td></tr>`;
+    });
+
+    t+="</table>";
+    document.getElementById("reportTable").innerHTML=t;
+}
+
+/* COUNTER WISE */
+function counterWise(){
+    let group={};
+
+    sales.forEach(s=>{
+        if(!group[s.counter]) group[s.counter]={invoice:0,total:0};
+        group[s.counter].invoice++;
+        group[s.counter].total+=s.amount;
+    });
+
+    document.getElementById("summary").innerHTML=`
+        <div class="card"><div class="card-title">Total Counters</div><div class="card-value">${Object.keys(group).length}</div></div>
+    `;
+
+    let t=`<table><tr><th>Counter</th><th>Invoice</th><th>Total Sales</th></tr>`;
+
+    for(let c in group){
+        t+=`<tr><td>${c}</td><td>${group[c].invoice}</td><td>৳${group[c].total}</td></tr>`;
+    }
+
+    t+="</table>";
+    document.getElementById("reportTable").innerHTML=t;
+}
+
+/* USER WISE */
+function userWise(){
+    let group={};
+
+    sales.forEach(s=>{
+        if(!group[s.user]) group[s.user]={invoice:0,total:0};
+        group[s.user].invoice++;
+        group[s.user].total+=s.amount;
+    });
+
+    document.getElementById("summary").innerHTML=`
+        <div class="card"><div class="card-title">Total Users</div><div class="card-value">${Object.keys(group).length}</div></div>
+    `;
+
+    let t=`<table><tr><th>User</th><th>Invoice</th><th>Total Sales</th></tr>`;
+
+    for(let u in group){
+        t+=`<tr><td>${u}</td><td>${group[u].invoice}</td><td>৳${group[u].total}</td></tr>`;
+    }
+
+    t+="</table>";
+    document.getElementById("reportTable").innerHTML=t;
+}
+
+/* PDF EXPORT (simple print to PDF) */
+function exportPDF(){
+    window.print();
+}
+
+/* EXCEL EXPORT */
+function exportExcel(){
+    const table=document.querySelector("#reportTable table");
+    const rows=[...table.rows].map(r=>[...r.cells].map(c=>c.innerText));
+
+    let csv="";
+
+    rows.forEach(r=>{
+        csv+=r.join(",")+"\n";
+    });
+
+    const blob=new Blob([csv],{type:"text/csv"});
+    const url=URL.createObjectURL(blob);
+
+    const a=document.createElement("a");
+    a.href=url;
+    a.download="sales_report.csv";
+    a.click();
+}
+</script>
+
+</body>
+</html>
