@@ -5,15 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Customer Management</title>
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-
 <style>
-/* -------------------- Global Styles -------------------- */
+/* Base Styles */
 body {
     font-family: 'Roboto', sans-serif;
     margin: 0;
     background: #f4f6f9;
 }
 
+/* Header */
 header {
     background-color: #3742a1;
     color: white;
@@ -23,6 +23,7 @@ header {
     font-weight: 700;
 }
 
+/* Container */
 .container {
     max-width: 100%;
     margin: 0 auto;
@@ -33,7 +34,7 @@ header {
     overflow-x: auto;
 }
 
-/* -------------------- Buttons -------------------- */
+/* Add Button */
 .add-btn {
     position: fixed;
     top: 110px;
@@ -48,9 +49,11 @@ header {
     z-index: 1000;
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
-.add-btn:hover { background-color: #0c6cd1; }
+.add-btn:hover {
+    background-color: #0c6cd1;
+}
 
-/* -------------------- Search Box -------------------- */
+/* Search Box */
 .search-box {
     margin: 1rem 0;
 }
@@ -62,7 +65,7 @@ header {
     font-size: 1rem;
 }
 
-/* -------------------- Table -------------------- */
+/* Table Styles */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -78,8 +81,10 @@ table th {
     background-color: #f0f4f8;
 }
 
-/* -------------------- Actions Dropdown -------------------- */
-.actions { position: relative; }
+/* Actions */
+.actions {
+    position: relative;
+}
 .action-btn {
     padding: 0.3rem 0.7rem;
     border: none;
@@ -111,9 +116,11 @@ table th {
     cursor: pointer;
     width: 100%;
 }
-.action-menu button:hover { background: #f0f0f0; }
+.action-menu button:hover {
+    background: #f0f0f0;
+}
 
-/* -------------------- Modal -------------------- */
+/* Modal Styles */
 .modal {
     display: none;
     position: fixed;
@@ -148,8 +155,6 @@ table th {
     cursor: pointer;
     font-size: 1.2rem;
 }
-
-/* -------------------- Modal Buttons -------------------- */
 .modal-buttons {
     text-align: center;
     margin-top: 1rem;
@@ -169,7 +174,7 @@ table th {
 .close-btn { background-color: #ff4757; }
 .close-btn:hover { background-color: #e03e4f; }
 
-/* -------------------- Form -------------------- */
+/* Form Styles */
 .form-row {
     display: flex;
     flex-wrap: wrap;
@@ -185,14 +190,70 @@ table th {
     font-weight: 500;
     margin-bottom: 0.3rem;
 }
-.form-group label .required { color: red; }
+.form-group label .required {
+    color: red;
+}
 .form-group input,
 .form-group select {
     padding: 0.5rem;
     border-radius: 5px;
     border: 1px solid #ccc;
+} 
+
+/* ATM Card Styles */
+.atmCard {
+    width: 500px;
+    height: 280px;
+    border-radius: 20px;
+    background-color: #3742a1;
+    color: white;
+    padding: 25px;
+    display: flex;
+    justify-content: space-between;
+    font-family: 'Roboto', sans-serif;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
 }
 
+.atmCard .left {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.atmCard .left h2 {
+    margin: 0 0 8px 0;
+    font-size: 20px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.atmCard .left h2::before {
+    content: "🛒"; /* shopping cart icon */
+    font-size: 24px;
+}
+
+.atmCard .left p {
+    margin: 3px 0;
+    font-size: 14px;
+}
+
+.atmCard .right {
+    width: 35%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: none;
+}
+
+.atmCard .right svg {
+    transform: rotate(0deg);
+    width: 150px !important;
+    height: 60px !important;
+}
 </style>
 </head>
 <body>
@@ -201,13 +262,10 @@ table th {
 
 <div class="container">
     <h2>Customer List</h2>
-
     <button class="add-btn" id="openModalBtn">Add Customer</button>
-
     <div class="search-box">
         <input type="text" id="searchInput" placeholder="Search...">
     </div>
-
     <table id="customerTable">
         <thead>
             <tr>
@@ -229,9 +287,7 @@ table th {
                 <th>Action</th>
             </tr>
         </thead>
-        <tbody>
-            <!-- Rows will be dynamically added here -->
-        </tbody>
+        <tbody></tbody>
     </table>
 </div>
 
@@ -240,7 +296,6 @@ table th {
     <div class="modal-content">
         <button class="close-icon" id="closeModalBtn">&times;</button>
         <h3 id="modalTitle">Add Customer</h3>
-
         <div class="form-row">
             <div class="form-group">
                 <label>Customer Type <span class="required">*</span></label>
@@ -251,32 +306,26 @@ table th {
                     <option>Membership</option>
                 </select>
             </div>
-
             <div class="form-group">
                 <label>Contact No <span class="required">*</span></label>
                 <input type="text" id="contact" placeholder="Contact No">
             </div>
-
             <div class="form-group">
                 <label>Card No</label>
                 <input type="text" id="cardNo" placeholder="Card No">
             </div>
-
             <div class="form-group">
                 <label>First Name <span class="required">*</span></label>
                 <input type="text" id="firstName" placeholder="First Name">
             </div>
-
             <div class="form-group">
                 <label>Last Name</label>
                 <input type="text" id="lastName" placeholder="Last Name">
             </div>
-
             <div class="form-group">
                 <label>Email</label>
                 <input type="email" id="email" placeholder="Email">
             </div>
-
             <div class="form-group">
                 <label>Gender <span class="required">*</span></label>
                 <select id="gender">
@@ -286,32 +335,26 @@ table th {
                     <option>Other</option>
                 </select>
             </div>
-
             <div class="form-group">
                 <label>Address</label>
                 <input type="text" id="address" placeholder="Address">
             </div>
-
             <div class="form-group">
                 <label>Country <span class="required">*</span></label>
                 <select id="country"></select>
             </div>
-
             <div class="form-group">
                 <label>City <span class="required">*</span></label>
                 <select id="city"></select>
             </div>
-
             <div class="form-group">
                 <label>Shipping Address</label>
                 <input type="text" id="shippingAddress" placeholder="Shipping Address">
             </div>
-
             <div class="form-group">
                 <label>Discount %</label>
                 <input type="number" id="discount" placeholder="Discount %" readonly>
             </div>
-
             <div class="form-group">
                 <label>Store <span class="required">*</span></label>
                 <select id="store">
@@ -320,7 +363,6 @@ table th {
                     <option>Others Outlet</option>
                 </select>
             </div>
-
             <div class="form-group">
                 <label>Status <span class="required">*</span></label>
                 <select id="status">
@@ -330,7 +372,6 @@ table th {
                 </select>
             </div>
         </div>
-
         <div class="modal-buttons">
             <button class="save-btn" id="saveCustomerBtn">Save</button>
             <button class="close-btn" id="closeModalBtn2">Close</button>
@@ -338,6 +379,7 @@ table th {
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
 <script>
 // ------------------- JavaScript -------------------
 
@@ -370,18 +412,14 @@ const bdDistricts = ["Bagerhat", "Barguna", "Bhola", "Bogra", "Bandarban", "Brah
 
 const countrySelect = document.getElementById('country');
 const citySelect = document.getElementById('city');
-
-// Populate countries
-countries.forEach(c => { let o = new Option(c, c); countrySelect.add(o); });
-
-// Country change -> populate city
+countries.forEach(c => countrySelect.add(new Option(c,c)));
 countrySelect.addEventListener('change', () => {
     citySelect.innerHTML = '<option value="">Select</option>';
     if(countrySelect.value==="Bangladesh") bdDistricts.forEach(d=>citySelect.add(new Option(d,d)));
     else if(countrySelect.value!=="") citySelect.add(new Option("N/A","N/A"));
 });
 
-// Discount auto
+// Discount Logic
 const customerTypeSelect = document.getElementById('customerType');
 const discountInput = document.getElementById('discount');
 customerTypeSelect.addEventListener('change', () => {
@@ -394,129 +432,114 @@ document.getElementById('openModalBtn').onclick = () => { modal.style.display='f
 document.querySelectorAll('#closeModalBtn,#closeModalBtn2').forEach(b=>b.onclick=()=>modal.style.display='none');
 window.onclick = e => { if(e.target===modal) modal.style.display='none'; };
 
-// Clear form
-function clearForm() {
+function clearForm(){
     document.querySelectorAll('#customerModal input,#customerModal select').forEach(i=>i.value='');
     discountInput.value='';
     citySelect.innerHTML='<option value="">Select</option>';
 }
 
-// Validate form
-function validateForm() {
+function validateForm(){
     const req=['customerType','gender','firstName','contact','store','country','city','status'];
     return req.every(id=>document.getElementById(id).value.trim()!=='');
 }
 
-// Table
 const tableBody = document.querySelector('#customerTable tbody');
 let editRow = null;
 
-// Save to localStorage
-function saveToLocalStorage() {
-    const data = Array.from(tableBody.rows).map(r => 
-        Array.from(r.cells).slice(1, 15).map(c => c.textContent)
-    );
+function saveToLocalStorage(){
+    const data = Array.from(tableBody.rows).map(r => Array.from(r.cells).slice(1,15).map(c => c.textContent));
     localStorage.setItem('customers', JSON.stringify(data));
 }
 
-// Load
-function loadFromLocalStorage() {
+function loadFromLocalStorage(){
     const customers = JSON.parse(localStorage.getItem('customers') || '[]');
     customers.forEach(data => {
         const row = document.createElement('tr');
-        row.innerHTML = `<td></td>
-            ${data.map(d => `<td>${d}</td>`).join('')}
-            <td class="actions">
-                <button class="action-btn">Actions</button>
-                <div class="action-menu">
-                    <button class="edit-btn">Edit</button>
-                    <button class="print-btn">Print Card</button>
-                    <button class="delete-btn">Delete</button>
-                </div>
-            </td>`;
+        row.innerHTML = `<td></td>${data.map(d=>`<td>${d}</td>`).join('')}
+        <td class="actions">
+            <button class="action-btn">Actions</button>
+            <div class="action-menu">
+                <button class="edit-btn">Edit</button>
+                <button class="print-btn">Print Card</button>
+                <button class="delete-btn">Delete</button>
+            </div>
+        </td>`;
         tableBody.appendChild(row);
         addRowListeners(row);
     });
     updateSL();
 }
 
-// Update SL
 function updateSL(){ Array.from(tableBody.rows).forEach((r,i)=>r.cells[0].textContent=i+1); }
 
-// Row actions
 function addRowListeners(row){
-    const actionBtn=row.querySelector('.action-btn');
-    const menu=row.querySelector('.action-menu');
-    actionBtn.onclick = e => { menu.style.display = menu.style.display==='flex'?'none':'flex'; };
+    const actionBtn = row.querySelector('.action-btn');
+    const menu = row.querySelector('.action-menu');
+    actionBtn.onclick = () => { menu.style.display = menu.style.display==='flex'?'none':'flex'; };
 
-    // ⭐ FIXED ⭐ Edit mapping corrected here
     row.querySelector('.edit-btn').onclick = () => {
         editRow=row;
         document.getElementById('modalTitle').textContent="Edit Customer";
-
-        const ids = [
-            'customerType',
-            'contact',
-            'cardNo',
-            'firstName',
-            'lastName',
-            'email',
-            'gender',
-            'address',
-            'city',
-            'country',
-            'shippingAddress',
-            'discount',
-            'store',
-            'status'
-        ];
-
+        const ids = ['customerType','contact','cardNo','firstName','lastName','email','gender','address','city','country','shippingAddress','discount','store','status'];
         ids.forEach((id,i)=>document.getElementById(id).value=row.cells[i+1].textContent);
-
         if(document.getElementById('country').value==="Bangladesh") countrySelect.dispatchEvent(new Event('change'));
-
         modal.style.display='flex';
         menu.style.display='none';
     };
 
-    row.querySelector('.delete-btn').onclick = () => { if(confirm('Delete this customer?')) { row.remove(); saveToLocalStorage(); updateSL(); } };
+    row.querySelector('.delete-btn').onclick = () => { if(confirm('Delete this customer?')){ row.remove(); saveToLocalStorage(); updateSL(); } };
 
     row.querySelector('.print-btn').onclick = () => {
-        const cells=row.cells;
-        const card=`Customer: ${cells[3].textContent} ${cells[4].textContent}\nContact: ${cells[5].textContent}\nEmail: ${cells[6].textContent}\nType: ${cells[1].textContent}\nDiscount: ${cells[12].textContent}%`;
-        const win=window.open('','Print','width=400,height=400');
-        win.document.write('<pre>'+card+'</pre>'); win.document.close(); win.print();
-        menu.style.display='none';
+        const c = row.cells;
+        const uniqueId = "CUST-" + String(Date.now()).slice(-6);
+
+        const cardHTML = `
+        <div class="atmCard">
+            <div class="left">
+                <h2>TECH BD IT SOLUTIONS</h2>
+                <p><b>Customer Code:</b> ${uniqueId}</p>
+                <p><b>Name:</b> ${c[4].textContent} ${c[5].textContent}</p>
+                <p><b>Contact:</b> ${c[2].textContent}</p>
+                <p><b>Email:</b> ${c[6].textContent}</p>
+                <p><b>Type:</b> ${c[1].textContent}</p>
+                <p><b>Discount:</b> ${c[12].textContent}%</p>
+            </div>
+            <div class="right">
+                <svg id="barcode"></svg>
+                <p style="text-align:center; font-size:12px; margin-top:5px;">Scan Code</p>
+            </div>
+        </div>`;
+
+        const win = window.open("", "_blank", "width=520,height=320");
+        win.document.write(`
+            <html>
+            <head>
+            <style>
+            ${document.querySelector('style').innerHTML}
+            </style>
+            </head>
+            <body>${cardHTML}</body>
+            </html>
+        `);
+        win.document.close();
+        JsBarcode(win.document.querySelector("#barcode"), uniqueId, {
+            format: "CODE128",
+            displayValue: true,
+            width: 2.5,
+            height: 60
+        });
+        win.print();
     };
 }
 
-// ⭐ FIXED ⭐ Save customer mapping corrected
 document.getElementById('saveCustomerBtn').onclick = () => {
     if(!validateForm()){ alert('Fill all required fields!'); return; }
-    
-    const fields = [
-        'customerType',
-        'contact',
-        'cardNo',
-        'firstName',
-        'lastName',
-        'email',
-        'gender',
-        'address',
-        'city',
-        'country',
-        'shippingAddress',
-        'discount',
-        'store',
-        'status'
-    ];
-
+    const fields=['customerType','contact','cardNo','firstName','lastName','email','gender','address','city','country','shippingAddress','discount','store','status'];
     const data = fields.map(id=>document.getElementById(id).value);
-    
     let row;
     if(editRow){
         Array.from(editRow.cells).slice(1,15).forEach((c,i)=>c.textContent=data[i]);
-        editRow = null;
+        editRow=null;
     } else {
         row=document.createElement('tr');
         row.innerHTML = `<td></td>${data.map(d=>`<td>${d}</td>`).join('')}
@@ -531,15 +554,9 @@ document.getElementById('saveCustomerBtn').onclick = () => {
         tableBody.appendChild(row);
         addRowListeners(row);
     }
-
-    updateSL(); 
-    saveToLocalStorage(); 
-    modal.style.display='none'; 
-    clearForm();
+    updateSL(); saveToLocalStorage(); modal.style.display='none'; clearForm();
 };
 
-
-// Search
 document.getElementById('searchInput').addEventListener('keyup', () => {
     const filter = document.getElementById('searchInput').value.toLowerCase();
     Array.from(tableBody.rows).forEach(row => {
@@ -549,5 +566,6 @@ document.getElementById('searchInput').addEventListener('keyup', () => {
 
 window.addEventListener('DOMContentLoaded', loadFromLocalStorage);
 </script>
+
 </body>
 </html>
