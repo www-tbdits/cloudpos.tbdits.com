@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <title>Inventory Coming Soon</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: linear-gradient(135deg, #dde5ff, #eef1ff);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .card {
+            background: #ffffff;
+            width: 420px;
+            padding: 40px 30px;
+            border-radius: 14px;
+            text-align: center;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+            animation: fadeIn 0.7s ease-in-out;
+
+            /* পুরো মেসেজ বক্সে বর্ডার */
+            border: 3px solid #4e73df;
+        }
+
+        .card h2 {
+            margin: 0;
+            font-size: 26px;
+            color: #1d2d50;
+            font-weight: 700;
+
+            /* টাইটেলের নিচে বর্ডার */
+            padding-bottom: 10px;
+            border-bottom: 3px solid #4e73df;
+            display: inline-block;
+        }
+
+        .card p {
+            margin: 18px 0 25px;
+            font-size: 15px;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .close-btn {
+            background: #4e73df;
+            color: white;
+            border: none;
+            padding: 11px 30px;
+            font-size: 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .close-btn:hover {
+            background: #2e59d9;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="card">
+        <h2>Inventory Coming Soon</h2>
+
+        <p>
+            Our inventory feature is currently under development.<br>
+            Stay tuned  exciting updates are coming!
+        </p>
+
+        <!-- Close button redirect -->
+        <button class="close-btn" onclick="goHome()">Close</button>
+    </div>
+
+    <script>
+        function goHome() {
+            window.location.href = "index.html"; // এখানে তোমার মূল পেজ লিংক দিবে
+        }
+    </script>
+
+</body>
+</html>
