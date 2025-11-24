@@ -1414,7 +1414,31 @@ function generateInvoiceNumber() {
 // Run on page load
 generateInvoiceNumber();
 
+<!--  ✅⤵🔰Auto-generate CustomerID  ✅⤵🔰-->
 
+   function generateCustomerID() {
+    const prefix = "24TBI S";
+
+    const now = new Date();
+    const yearShort = String(now.getFullYear()).slice(2); // 2025 → 25
+    const month = String(now.getMonth() + 1).padStart(2, "0"); // 1 → 01
+
+    // 🔥 Auto Increase 2-digit number (local storage)
+    let serial = localStorage.getItem("tbiSerial");
+
+    if (!serial) {
+      serial = 1;
+    } else {
+      serial = parseInt(serial) + 1;
+    }
+
+    localStorage.setItem("tbiSerial", serial);
+    const serial2digit = String(serial).padStart(2, "0");
+    const finalID = `${prefix}${yearShort}${month}${serial2digit}`;
+    document.getElementById("customerId").value = finalID;
+  }
+
+  generateCustomerID();
 
 
   // ✅ Update Summary: Qty, Amount
@@ -1581,5 +1605,6 @@ generateInvoiceNumber();
   <i class="fas fa-phone-alt"></i> +8809638665205, +8801516-573873 ,+8801323056735 |
   <i class="fas fa-map-marker-alt"></i> Dhaka-1205
 </footer>
+
 
 
