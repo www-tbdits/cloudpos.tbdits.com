@@ -548,10 +548,10 @@ footer {
 <button onclick="openPaymentPopup()" style="
     background: #2980b9;
     color: white;
-    padding: 8px 14px;
+    padding: 5px 14px;
     border: none;
-    border-radius: 4px;
-    font-size: 16px;
+    border-radius: 0px;
+    font-size: 18px;
     cursor: pointer;
     margin-right: 10px;
   ">Print Invoice</button>
@@ -1317,12 +1317,15 @@ if (printWindow) {
 <button onclick="reprintInvoice()" style="
     background: #27ae60;
     color: white;
-    padding: 8px 14px;
+    padding: 5px 14px;
     border: none;
-    border-radius: 4px;
-    font-size: 16px;
+    border-radius: 0px;
+    font-size: 18px;
     cursor: pointer;
-  ">Reprint</button>
+    width: 108px;             /* বাটন বড় করা */
+    text-align: center;         /* টেক্সট center হবে */
+    margin-bottom: 10px;      /* নিচে spacing */
+  "> Reprint</button>
 </div>
 
 <style>
@@ -1591,20 +1594,26 @@ generateInvoiceNumber();
 <footer style="
   background: #2c3e50;
   color: white;
-  padding: 5px 6px;
+  padding: 4px 10px;
   font-size: 14px;
   text-align: center;
-  margin-top:3px;
-  border-top: 1px solid #27ae60;
+  margin-top: 5px;
+  border-top: 2px solid #27ae60;
+  width: 100%;
+  left: 0;
+  right: 0;
+  bottom: 0;
 ">
   <span>System by: <strong>Tech BD IT Solutions</strong></span> | 
-<span>Developed by: <strong>Md. Jems Ahmed Joy></span>
-
+  <span>Developed by: <strong>Md. Jems Ahmed Joy</strong></span> |
+  
   <i class="fas fa-globe"></i> 
-  <a href="https://www-tbdits.github.io/techbditsolutions.com/" target="_blank" style="color: #1abc9c; text-decoration: none;">www-tbdits.github.io/techbditsolutions.com</a> |
-  <i class="fas fa-phone-alt"></i> +8809638665205, +8801516-573873 ,+8801323056735 |
+  <a href="https://www-tbdits.github.io/techbditsolutions.com" target="_blank" style="
+    color: #1abc9c; 
+    text-decoration: none;
+  ">www.techbditsolutions.com</a> |
+  
+  <i class="fas fa-phone-alt"></i> +8809638665205, +8801516-573873 , +8801323056735 |
+  
   <i class="fas fa-map-marker-alt"></i> Dhaka-1205
 </footer>
-
-
-
