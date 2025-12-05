@@ -1,0 +1,1463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Cloud Quick of Quotation </title>
+<style>0
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 20px 30px;
+  background: #2980b; 
+  color: #2c3e50;
+}
+html, body {
+  height: 100%;
+  overflow: hidden; /* এটা যোগ করো */
+}
+
+  #header-section {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #000;
+    padding-bottom:10px;
+    margin-bottom: 30px;
+  }
+  /*  ✅⤵🔰Left: Company info  ✅⤵🔰*/
+
+  #company-login {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  font-family: 'Times New Roman', Arial, sans-serif;
+  white-space: nowrap;
+}
+
+#company-login h2 {
+  font-size: 32px;
+  font-weight: 800;
+  color: #0B3861; /* Dark blue tone */
+  margin: 0 0 8px 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+#company-login .address {
+  font-size: 18px;
+  font-weight: 500;
+  color: #2c3e50;
+  margin-bottom: 6px;
+}
+
+#company-login .contacts {
+  font-size: 16px;
+  font-weight: 600;
+  color: #2980b9;
+}
+
+/* ✅⤵🔰 Quotation Entry aligned right with label on left side  ✅⤵🔰*/
+
+#quotation-entry {
+  flex: 1 1 320px;
+  max-width: 350px;
+  font-size: 14px;
+  padding-left: 40px; /* Pushes the section to the right */
+  border-left: 1px solid #000;
+}
+
+.quotation-form-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.quotation-form-group label {
+  min-width: 120px; /* Align labels */
+  font-weight: 600;
+  margin-right: 10px;
+  white-space: nowrap;
+}
+
+.quotation-form-group input[type="text"],
+.quotation-form-group input[type="number"] {
+  flex: 1;
+  padding:4px 6px;
+  font-size: 14px;
+  border-radius: 4px;
+  border: 1px solid #000;
+  box-sizing: border-box;
+}
+
+.quotation-checkbox {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0px;
+  font-weight: 600;
+}
+
+.quotation-checkbox input[type="checkbox"] {
+  margin-right: 8px;
+  transform: scale(1.1);
+  cursor: pointer;
+}
+
+  /*  ✅⤵🔰Main container changed to flex-direction: column ✅⤵🔰 */
+
+  #main-content {
+    display: flex;
+    flex-direction: column; /* Change from row to column */
+    gap: 30px;
+  }
+
+  /* ✅⤵🔰 Container for Products and Summary side by side ✅⤵🔰 */
+
+  #products-summary {
+    display: flex;
+    gap: 4px;
+  }
+
+  /* ✅⤵🔰 Products Table styles ✅⤵🔰 */
+
+  #product-table-section {
+    flex: 1 1 500px;
+    background: white;
+    padding: 10px;
+    box-shadow:20px rgba(0,0,0,0.1);
+    border-radius: 5px;
+  }
+  #product-table-section h3 {
+    margin-top: 0;
+    color: #27ae60;
+    margin-bottom: 15px;
+  }
+  table {
+    width:100%;
+    border-collapse: collapse;
+  }
+  table th, table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+  }
+  table th {
+    background: #2980b9;
+    color: white;
+    font-weight: 600;
+  }
+  .delete-btn {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  .delete-btn:hover {
+    background: #c0392b;
+  }
+
+  /* Summary Section */
+  #summary-section {
+  flex: 1 1 250px;
+  max-width: 250px;
+  background: white;
+  padding: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  border-radius: 5px;
+  font-size: 15px;
+}
+
+#summary-section h3 {
+  margin-top: 0;
+  color: #27ae60;
+  margin-bottom: 20px;
+  text-align: center;
+}
+footer {
+  position: fixed;
+  bottom: 0;
+  left: 20px; /* বাম থেকে ২০ পিক্সেল দূরে */
+  width: calc(100% - 40px); /* দুই পাশে মের্জিন রাখার জন্য */
+  background: #eee;
+  padding: 15px 20px;
+  border-top: 10px solid #ccc;
+  box-sizing: border-box;
+  z-index: 1000;
+  border-radius: 0px; /* চাইলে একটু rounded corner */
+}
+
+/* 🟩 Updated product-table-section with border like quotation box */
+#product-table-section {
+  flex: 1 1 500px;           /* ফ্লেক্স বেসিস এবং গ্রোউথ সেট */
+  background-color: #fff;    /* হোয়াইট ব্যাকগ্রাউন্ড */
+  padding: 0px;              /* প্যাডিং */
+  border-radius: 10;          /* কোন রাউন্ডেড কর্নার নেই */
+  border: 1px solid #000;    /* কালো বর্ডার */
+  max-height: 335px;         /* ম্যাক্সিমাম হাইট ৪০০px */
+  overflow-y: auto;          /* ভার্টিক্যাল স্ক্রল */
+  position: relative;        /* পজিশন রিলেটিভ */
+}
+
+  #product-table-section thead th {
+    position: sticky;
+    top: 0;
+    background-color: #2980b9;
+    color: white;
+    z-index: 1;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  table th, table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+  }
+
+
+/* 🔹 Scroll Button Style */
+#scrollButton {
+  position: absolute;
+  right: 5px;
+  bottom: 5px;
+  z-index: 5;
+  background: #1abc9c;
+  color: white;
+  padding: 2px 4px;
+  font-size: 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/*  ✅⤵🔰Label + value field inline like input ✅⤵🔰 */
+
+.summary-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.summary-row label {
+  flex: 1;
+  font-weight: 600;
+  margin-right: 10px;
+  white-space: nowrap;
+}
+
+.summary-row .value-box {
+  flex: 1;
+  padding: 6px 8px;
+  font-size: 14px;
+  border-radius: 4px;
+  border: 1px solid #000;
+  background: #f9f9f9;
+  text-align: right;
+  font-weight: 600;
+  color: #333;
+}
+
+.summary-row .value-box.total {
+  font-size: 18px;
+  color: #27ae60;
+  font-weight: 700;
+}
+
+/* ✅⤵🔰 Inputs remain styled normally ✅⤵🔰 */
+
+#summary-section input[type="number"] {
+  width: 100%;
+  padding: 6px 8px;
+  font-size: 14px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+</style>
+</head>
+<body>
+
+<!-- ✅⤵🔰 Header Section: Company Info  ✅⤵🔰-->
+
+<div id="header-section">
+
+  <!--  ✅⤵🔰Left side: Company info  ✅⤵🔰-->
+
+<div id="company-login" style="display: flex; align-items: center; gap: 15px;">
+  
+  <!--  ✅⤵🔰Logo Image  ✅⤵🔰-->
+  <div id="company-logo">
+    <img src="images/PosLogo.png" alt=" " style="height: 100px;">
+  </div>
+
+  <!--  ✅⤵🔰Company Info ✅⤵🔰 -->
+  <div>
+    <h2>TECH BD IT SOLUTIONS </h2>
+    <p> Dhaka 1205, Bangladesh</p>
+   <p>+8809638665205 | +8801516-573873 |+8801323056735</p>
+    
+
+<!-- ✅  Date&Time ✅ -->
+
+<span id="time" style="
+  margin-left: 15px; 
+  font-family: monospace; 
+  font-size: 14px; 
+  color: white; 
+  background-color: red;
+  padding: 4px 12px;
+  border-radius: 0px;
+  display: inline-block;
+  min-width: 100px;
+  text-align: center;
+"></span>
+
+<span id="date" style="
+  margin-left: 5px; 
+  font-family: monospace; 
+  font-size: 14px; 
+  color: white; 
+  background-color: green;
+  padding: 4px 8px;
+  border-radius: 0px;
+  display: inline-block;
+  min-width: 100px;
+  text-align: center;
+"></span>
+
+<!-- ✅ সময় ও তারিখ -->
+<script>
+  function updateClockDate() {
+    const now = new Date();
+
+    let hours = now.getHours();
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    const seconds = now.getSeconds().toString().padStart(2, '0');
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+
+    hours = hours % 12;
+    hours = hours ? hours : 12;
+
+    const time = `${hours}:${minutes}:${seconds} ${ampm}`;
+    const date = now.toLocaleDateString('en-GB');
+
+    document.getElementById('time').textContent = time;
+    document.getElementById('date').textContent = date;
+  }
+
+  setInterval(updateClockDate, 1000);
+  updateClockDate();
+</script>
+
+</script>
+
+
+  </div>
+</div>
+
+  <!--  ✅⤵🔰Right side: Quotation entry ✅⤵🔰 -->
+
+<div id="quotation-entry">
+  <div class="quotation-form-group">
+    <label for="quotationNumber">Quotation Number:</label>
+    <input type="text" id="quotationNumber" placeholder=" " />
+  </div>
+
+  <div class="quotation-form-group">
+    <label for="itemBarcode">Item / Barcode :</label>
+    <input type="text" id="itemBarcode" placeholder=" " />
+  </div>
+
+  <div class="quotation-form-group">
+    <label for="salePrice">Sale Price:</label>
+    <input type="number" id="salePrice" placeholder=" " min="0" step="0.01" />
+  </div>
+
+  <div class="quotation-form-group">
+    <label for="saleQty">Sale Quantity:</label>
+    <input type="number" id="saleQty" placeholder=" " min="1" step="1" />
+  </div>
+ <div class="quotation-checkbox">
+  <input type="checkbox" id="InStock" />
+    <label for="InStock">InStock </label>
+  </div>
+</div>
+</div>
+
+  <style>
+
+  /*  ✅⤵🔰Container styling ✅⤵🔰 */
+  #customer-info {
+    max-width: 100%;
+    background: white;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    border-radius: 5px;
+    font-size: 14px;
+  }
+
+  #customer-info h3 {
+    margin-top: 0;
+    color: #27ae60;
+    margin-bottom: 10px;
+  }
+
+  /*  ✅⤵🔰Row containing two fields ✅⤵🔰 */
+  .customer-row {
+    display: flex;
+    gap: 40px;
+    margin-bottom:2px;
+  }
+
+  /*  ✅⤵🔰Label + input side-by-side ✅⤵🔰 */
+  .form-group-horizontal {
+    display: flex;
+    align-items: center;
+    flex: 1;
+  }
+
+  .form-group-horizontal label {
+    white-space: nowrap;
+    margin-right: 10px;
+    min-width: 90px; /* Adjust label width as needed */
+    font-weight: 600;
+  }
+
+  .form-group-horizontal input[type="text"] {
+    flex: 1;
+    padding: 3px 2px;
+    font-size: 14px;
+    border-radius: 4px;
+    border: 1px solid #000;
+    box-sizing: border-box;
+  }
+</style>
+
+  <div class="customer-row">
+    <div class="form-group-horizontal">
+      <label for="customerId">Customer ID:</label>
+      <input type="text" id="customerId" placeholder="" />
+    </div>
+    <div class="form-group-horizontal">
+      <label for="customerMobile">Mobile:</label>
+      <input type="text" id="customerMobile" placeholder="" />
+    </div>
+  </div>
+
+  <div class="customer-row">
+    <div class="form-group-horizontal">
+      <label for="customerName">Customer Name:</label>
+      <input type="text" id="customerName" placeholder="" />
+    </div>
+    <div class="form-group-horizontal">
+      <label for="customerAddress">Address:</label>
+      <input type="text" id="customerAddress" placeholder="" />
+    </div>
+
+<!-- Remarks Input Box: Single Line Fixed -->
+
+<div class="form-group-horizontal" style="margin-top: 10px; font-family: Arial, sans-serif;">
+  <label for="remarks" style="display: block; font-weight: bold; margin-bottom: 3px;">Remarks:</label>
+  <textarea 
+    id="remarks" 
+    rows="1" 
+    placeholder=" " 
+    style="width: 100%; 
+           height: 25px; /* single line height */
+           padding: 4px; 
+           font-size: 15px; 
+           border: 1px solid #000; 
+           border-radius: 4px; 
+           box-sizing: border-box; 
+           resize: none; 
+           overflow: hidden;"> 
+  </textarea>
+</div>
+  </div>
+    </div>
+  </div>
+</div>
+
+  <!-- ✅⤵🔰 Container for Products and Summary side by side ✅⤵🔰 -->
+
+  <div id="products-summary">
+<!-- Products Table --> <div id="product-table-section">
+      <table id="productTable">
+        <thead>
+          <tr>
+            <th>SL.NO</th>
+            <th>DESCRIPTION</th>
+             <th>QNT</th>
+            <th>RATE</th>
+            <th>AMOUNT</th>
+            <th>DELETE</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Product rows will be inserted here -->
+        </tbody>
+      </table>
+    </div>
+
+<!--  ✅⤵🔰Summary Section  ✅⤵🔰-->
+
+<div id="summary-section">
+
+  <div class="summary-row">
+    <label>Total Qty:</label>
+    <div id="totalQty" class="value-box small">0</div>
+  </div>
+
+  <div class="summary-row">
+    <label>Total:</label>
+    <div id="totalAmount" class="value-box small">0.00</div>
+  </div>
+
+  <div class="summary-row">
+    <label for="vatInput">VAT (%):</label>
+    <input type="number" id="vatInput" min="0" max="100" step="0.01" value="0" />
+  </div>
+
+  <div class="summary-row">
+    <label>VAT Amount:</label>
+    <div id="vatAmount" class="value-box small">0.00</div>
+  </div>
+
+  <div class="summary-row">
+    <label for="discountPercent">Discount (%):</label>
+    <input type="number" id="discountPercent" min="0" max="100" step="0.01" value="0" />
+  </div>
+
+  <div class="summary-row">
+    <label>Discount Amount:</label>
+    <div id="discountAmount" class="value-box small">0.00</div>
+  </div>
+
+  <div class="summary-row">
+    <label>Sub Total:</label>
+    <div id="SubTotal" class="value-box total">0.00</div>
+  </div>
+
+
+<!--  ✅⤵🔰QuotationPrint Section & Payment Method section ✅⤵🔰-->
+<!--  ✅⤵🔰QuotationPrint Section & Payment Method section ✅⤵🔰-->
+
+<button onclick="openPaymentPopup()" style="
+    background: #2980b9;
+    color: white;
+    padding: 3px 20px;       /* বাম-ডান এবং উপর-নিচে padding বড় করা */
+    border: none;
+    border-radius: 0px;       /* একটু গোলাকার কোণা */
+    font-size: 18px;          /* ফন্ট বড় করা */
+    cursor: pointer;
+    display: block;           /* left-align করতে block */
+    width: 250px;             /* বাটন বড় করা */
+    text-align: center;         /* টেক্সট center হবে */
+    margin-bottom: 10px;      /* নিচে spacing */
+">Print </button>
+
+
+<script>
+
+function openPaymentPopup() {
+ const width = 560;
+  const height = 480;
+  const left = (screen.width / 2) - (width / 2);
+  const top = (screen.height / 2) - (height / 2);
+  const options = `width=${width},height=${height},top=${top},left=${left},resizable=no,scrollbars=no`;
+
+  const totalAmount = document.getElementById('SubTotal')?.textContent.trim() || '0.00';
+
+  const paymentOptions = [
+    'Cash', 'BKash', 'Nagad', 'Rocket', 'Card',
+    'Dutch-Bangla Bank', 'BRAC Bank', 'Islami Bank', 'City Bank', 'Standard Chartered Bank', 'DUE'
+  ];
+
+  const optionsHtml = paymentOptions.map(opt => `<div class="option" data-value="${opt}">${opt}</div>`).join('');
+
+  const popupContent = `
+    <html>
+      <head>
+        <meta charset="utf-8"/>
+        <title>Payment Method</title>
+        <style>
+          body {
+            font-family: 'Times New Roman', Times, serif;
+            padding: 30px;
+            text-align: center;
+            background: #f9f9f9;
+          }
+          h3 {
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 34px;
+            font-weight: 900;
+            color: #B22222;
+            text-transform: uppercase;
+            margin-bottom: 18px;
+            letter-spacing: 1px;
+          }
+          .label {
+            display: block;
+            text-align: left;
+            width: 90%;
+            margin: 10px auto 5px;
+            font-weight: bold;
+            font-family: 'Times New Roman', Times, serif;
+          }
+
+          .custom-select {
+            position: relative;
+            width: 90%;
+            margin: 0 auto 12px;
+            user-select: none;
+            font-size: 20px;
+          }
+          .select-trigger {
+            background: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 12px 14px;
+            text-align: left;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: 'Times New Roman', Times, serif;
+          }
+          .select-trigger .placeholder {
+            color: #666;
+          }
+          .select-arrow {
+            margin-left: 10px;
+            transition: transform .2s ease;
+          }
+          .custom-select.open .select-arrow {
+            transform: rotate(180deg);
+          }
+          .options {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: calc(100% + 6px);
+            background: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            max-height: 180px;
+            overflow-y: auto;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+            z-index: 9999;
+          }
+          .option {
+            padding: 10px 12px;
+            cursor: pointer;
+            text-align: left;
+          }
+          .option:hover {
+            background: #f0f0f0;
+          }
+
+          input[type="text"], input[type="number"] {
+            width: 90%;
+            padding: 10px;
+            font-size: 20px;
+            margin-bottom: 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-family: 'Times New Roman', Times, serif;
+          }
+
+          button {
+            background: #2c3e50;
+            color: white;
+            padding: 10px 25px;
+            border: none;
+            border-radius: 4px;
+            font-size: 22px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            font-family: 'Times New Roman', Times, serif;
+          }
+          button:hover {
+            background: #34495e;
+          }
+
+          p.amount {
+            font-size: 22px;
+            margin-bottom: 12px;
+          }
+        </style>
+      </head>
+      <body>
+
+        <h3>Payment Method</h3>
+        <p class="amount"><strong>Quotation Amount:</strong> ৳${totalAmount}</p>
+        <label class="label" for="paymentSelect">Payment Type</label>
+
+        <div class="custom-select" id="customSelect">
+          <div class="select-trigger" id="selectTrigger" tabindex="0" aria-haspopup="listbox" aria-expanded="false">
+            <span class="placeholder">-- Select Payment Method --</span>
+            <span class="select-arrow">▾</span>
+          </div>
+          <div class="options" id="optionsList" role="listbox" aria-hidden="true" style="display:none;">
+            ${optionsHtml}
+          </div>
+        </div>
+
+        <input type="hidden" id="paymentSelectValue" value="">
+
+        <label class="label" for="cardNumber">Card Number</label>
+        <input type="text" id="cardNumber" placeholder="Enter card number" maxlength="20" />
+
+        <label class="label" for="manualAmount">Amount</label>
+        <input type="number" id="manualAmount" placeholder="Enter amount" min="0" />
+
+        <br/>
+        <button onclick="confirmPayment()">OK</button>
+
+        <script>
+          (function(){
+            const custom = document.getElementById('customSelect');
+            const trigger = document.getElementById('selectTrigger');
+            const optionsList = document.getElementById('optionsList');
+            const hidden = document.getElementById('paymentSelectValue');
+
+            function openSelect() {
+              custom.classList.add('open');
+              optionsList.style.display = 'block';
+              optionsList.setAttribute('aria-hidden','false');
+              trigger.setAttribute('aria-expanded','true');
+            }
+            function closeSelect() {
+              custom.classList.remove('open');
+              optionsList.style.display = 'none';
+              optionsList.setAttribute('aria-hidden','true');
+              trigger.setAttribute('aria-expanded','false');
+            }
+
+            trigger.addEventListener('click', (e) => {
+              e.stopPropagation();
+              if (custom.classList.contains('open')) closeSelect();
+              else openSelect();
+            });
+
+            trigger.addEventListener('keydown', (e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                if (custom.classList.contains('open')) closeSelect();
+                else openSelect();
+              } else if (e.key === 'Escape') {
+                closeSelect();
+              }
+            });
+
+            optionsList.addEventListener('click', function(e) {
+              const opt = e.target.closest('.option');
+              if (!opt) return;
+              const val = opt.dataset.value;
+              hidden.value = val;
+              trigger.querySelector('.placeholder').textContent = val;
+              closeSelect();
+            });
+
+            document.addEventListener('click', function(e) {
+              if (!custom.contains(e.target)) {
+                closeSelect();
+              }
+            });
+
+            document.addEventListener('keydown', function(e) {
+              if (e.key === 'Tab') {
+                setTimeout(() => {
+                  const active = document.activeElement;
+                  if (!custom.contains(active)) {
+                    closeSelect();
+                  }
+                }, 10);
+              }
+            });
+          })();
+
+          function confirmPayment() {
+            const payment = document.getElementById('paymentSelectValue').value;
+            const cardNumber = document.getElementById('cardNumber').value.trim();
+            const manualAmount = document.getElementById('manualAmount').value.trim();
+
+            if (!payment) {
+              alert('Please select a payment method!');
+              return;
+            }
+
+            if (window.opener && typeof window.opener.printQuotation === 'function') {
+              window.opener.printQuotation(payment, cardNumber, manualAmount);
+            } else {
+              console.warn('Opener printQuotation function not found.');
+            }
+            window.close();
+          }
+        <\/script>
+      </body>
+    </html>
+  `;
+
+  const popup = window.open('', '', options);
+  if (popup) {
+    popup.document.open();
+    popup.document.write(popupContent);
+    popup.document.close();
+  } else {
+    alert('Popup blocked! Please allow popups for this site.');
+  }
+}
+
+function printQuotation(paymentMethod, cardNumber, manualAmount) {
+  const width = 600;
+  const height = 700;
+  const left = (screen.width / 2) - (width / 2);
+  const top = (screen.height / 2) - (height / 2);
+  const options = `width=${width},height=${height},top=${top},left=${left},resizable=yes,scrollbars=yes`;
+
+  // ✅ Quotation & Customer Info
+  const quotationNumber = document.getElementById('quotationNumber').value.trim() || 'N/A';
+  const customerName = document.getElementById('customerName').value.trim() || '';
+  const customerMobile = document.getElementById('customerMobile').value.trim() || '';
+  const customerAddress = document.getElementById('customerAddress').value.trim() || '';
+
+// ✅ Product Table Data with SL. NO
+const rowsData = [];
+const tableRows = document.querySelectorAll('#productTable tbody tr');
+
+tableRows.forEach(row => {
+  const description = row.querySelector('.description').textContent;
+  const qty = row.querySelector('.qty').textContent;
+  const rate = row.querySelector('.rate').textContent;
+  const amount = row.querySelector('.amount').textContent;
+  rowsData.push({ description, qty, rate, amount });
+});
+
+const rowsHTML = rowsData.map((r, index) => `
+  <tr>
+    <td>${index + 1}</td> <!-- SL. NO -->
+    <td>${r.description}</td>
+    <td>${r.qty}</td>
+    <td>৳${r.rate}</td>
+    <td>৳${r.amount}</td>
+  </tr>
+`).join('');
+
+
+  // ✅ Summary Section Data
+  const totalQty = document.getElementById('totalQty').textContent;
+  const totalAmount = document.getElementById('totalAmount').textContent;
+  const vatPercent = document.getElementById('vatInput').value || 0;
+  const vatAmount = document.getElementById('vatAmount').textContent;
+  const discountPercent = document.getElementById('discountPercent').value || 0;
+  const discountAmount = document.getElementById('discountAmount').textContent;
+  const subTotal = document.getElementById('SubTotal').textContent;
+
+<!--  ✅⤵🔰QuotationPrint Section  ✅⤵🔰-->
+ <!--  ✅⤵🔰QuotationPrint Section  ✅⤵🔰--> 
+
+  const quotationContent = `
+    <html>
+      <head>
+        <title>Quotation</title>
+        <style>
+        
+/* 📝 Base Layout */
+
+body {
+  font-family: 'Times New Roman', Times, serif;
+  padding: 20px;
+  margin: 0;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.header img {
+  height: 100px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 0px;
+}
+
+table, th, td {
+  border: 1px solid #333;
+}
+
+th, td {
+  padding: 6px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.summary {
+  text-align: right;
+  margin-top: 0px;
+  font-size: 14px;
+}
+.summary p {
+  margin: 3px 0;
+}
+
+.customer-info {
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+
+
+/*  ✅⤵🔰 🧾A4 Pages Styling  ✅⤵🔰 */
+
+/* ✅ A4 print */
+@media print and (min-width: 500px) {
+  @page {
+    size: A4;
+    margin: 15mm;
+  }
+
+  html, body {
+    width: auto;
+    height: auto;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Footer সবসময় নিচে */
+  }
+
+  table {
+    table-layout: auto;
+    width: 100%;
+    page-break-inside: avoid;
+  }
+
+  tr, td, th {
+    page-break-inside: avoid;
+    page-break-after: auto;
+    white-space: normal;
+    word-break: break-word;
+  }
+
+  .summary {
+    margin-top: auto; /* Footer এর আগে সব content push */
+  }
+
+  .footer {
+    margin-top: auto;
+    border-top: 1px solid #000;
+    font-size: 14px;
+    text-align: center;
+  }
+}
+
+
+
+</style>
+      </head>
+      <body>
+
+<!-- 🟦 A4 Header Version -->
+<div class="header-a4" style="
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #000;
+  padding-bottom: 10px;
+  margin-bottom: 15px;
+">
+  <!-- Company Info -->
+  <div style="flex: 1;">
+    <h2 style="margin: 0; font-size: 22px; font-weight: 800; color: #000;">
+      TECH BD IT SOLUTIONS
+    </h2>
+    <p style="margin: 2px 0; font-size: 14px;">Elephant Road, Dhaka, Bangladesh</p>
+    <p style="margin: 2px 0; font-size: 14px;">
+     Call:  +8809638665205 | +8801516-573873 | +8801323056735
+    </p>
+    <p style="margin: 2px 0; font-size: 14px;">
+      Web: www-tbdits.github.io/techbditsolutions.com
+    </p>
+    <p style="margin: 2px 0; font-size: 14px;">
+      Email: info.techbditsolutions@gmail.com
+    </p>
+  </div>
+  <!-- Logo -->
+  <div style="text-align: right;">
+    <img src="images/PosLogo.png" alt="Company Logo" style="height: 100px;">
+  </div>
+</div>
+
+
+     <!--  ✅⤵🔰Print Quotation No and Date& time  ✅⤵🔰-->   
+
+    <div class="quotation-info">
+  <p class="quotation-number">
+    <strong>Quotation No:</strong> ${quotationNumber}
+  </p>
+  <p class="quotation-date">
+    <strong>Quotation Date:</strong> ${new Date().toLocaleDateString('en-GB')} ${new Date().toLocaleTimeString('en-GB', { hour12: false })}
+  </p>
+</div>
+
+<style>
+  .quotation-info p {
+    margin: 0;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 14px;
+    font-weight: bold;
+  }
+
+
+</style>
+
+
+        <!-- ✅⤵🔰Customer & Payment Info: Side by Side✅⤵🔰 -->
+<div class="quotation-info">
+  <!-- Left: Customer Info -->
+  <div class="customer-info">
+    <h3>QUOTATION TO:</h3>
+    <p><strong>Name:</strong> ${customerName}</p>
+    <p><strong>Mobile:</strong> ${customerMobile}</p>
+    <p><strong>Address:</strong> ${customerAddress}</p>
+  </div>
+
+  <!-- Right: Payment Info -->
+  <div class="payment-info">
+    <h3>PAYMENT INFORMATION</h3>
+    <p>Mohammad Jems Ahmed </p>
+    <p>Tech BD IT Solutions</p>
+    <p><strong>Account:</strong> ${paymentMethod}</p>
+  </div>
+</div>
+
+<style>
+.quotation-info {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  margin-top: 0px;
+}
+
+.customer-info, .payment-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.payment-info {
+  text-align: right;
+}
+
+
+</style>
+
+        <!-- ✅⤵🔰Product Table ✅⤵🔰-->
+        <table>
+          <thead>
+            <tr>
+              <th>Sl.No</th>
+              <th>Description</th>
+              <th>Qnt</th>
+              <th>Rate</th>
+              <th>Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${rowsHTML}
+          </tbody>
+        </table>
+
+        <!-- ✅⤵🔰Summary Block ✅⤵🔰-->
+        <div class="summary">
+          <p><strong>Total Qty:</strong> ${totalQty}</p>
+          <p><strong>Total:</strong> ৳${totalAmount}</p>
+          <p><strong>VAT (%):</strong> ${vatPercent}%</p>
+          <p><strong>VAT Amount:</strong> ৳${vatAmount}</p>
+          <p><strong>Discount (%):</strong> ${discountPercent}%</p>
+          <p><strong>Discount Amount:</strong> ৳${discountAmount}</p>
+          <hr>
+          <p style="font-size: 16px;"><strong>Sub Total:</strong> ৳${subTotal}</p>
+        </div>
+
+       <!-- ✅⤵🔰Payment Info ✅⤵🔰-->
+
+<div style="margin-top: 0px; font-size: 14px; padding: 0px; border: 0px solid; border-radius: 8px;">
+  ${
+    (document.getElementById('remarks')?.value.trim() || '') 
+      ? `<p style="font-weight: bold;
+          color: #000;">Remarks: ${document.getElementById('remarks').value}</p>` 
+      : ''
+  }
+  ${
+    paymentMethod || cardNumber || manualAmount
+      ? `<p><strong>Payment Info:</strong> ${paymentMethod || ''}</p>
+         ${cardNumber ? `<p><strong>Card No:</strong> ${cardNumber}</p>` : ''}
+         ${manualAmount ? `<p><strong>Amount Paid:</strong> ৳${manualAmount}</p>` : ''}
+ <p style="
+  color:#B22222;
+  font-size:15px;
+  font-weight:bold;
+  margin-top:10px;
+">
+  50% advance payment is required to process this order.
+</p>
+
+
+         <!-- ✅ Thank You + Signature এক লাইনে -->
+         <div class="thank-signature-line" style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px;">
+            <p style="color: black; font-weight: bold; margin: 0;">
+              Thank you For Service with Tech bd it Solutions.  
+            </p>
+            <div class="signature-block" style="text-align: center; width: 180px; margin-left: 10px;">
+              <div style="border-top: 1px solid #000; width: 100%; margin-bottom: 5px;"></div>
+              <p style="margin: 0; font-weight: bold; font-size: 13px;">Authorized Signature</p>
+            </div>
+         </div>`
+      : `<p style="color: #000;"><strong>No Payment Info Provided</strong></p>`
+  }
+</div>
+
+<!-- Footer: Single Line Company Info --> 
+<div style="
+    margin-top: 8px; 
+    padding-top: 10px; 
+    border-top: 1px solid #000; 
+    font-size: 16px; 
+    text-align: center; 
+    color: #000000; 
+    font-family: 'Times New Roman', Times, serif; 
+    font-weight: bold;
+">
+    <p style="margin: 0; font-weight: bold;">
+        System By: Tech bd it solutions | Phone: +8809638665205 | +8801516-573873 | +8801323056735 | 
+        Email: info.techbditsolutions@gmail.com | 
+        www-tbdits.github.io/techbditsolutions.com | 
+        Elephant Road, Dhaka, Bangladesh.
+    </p>
+</div>
+
+
+<script>
+          window.onload = function() { window.print(); }
+        <\/script>
+      </body>
+    </html>
+  `;
+
+const printWindow = window.open('', '', options);
+if (printWindow) {
+  printWindow.document.open();
+  printWindow.document.write(quotationContent);
+  printWindow.document.close();
+  printWindow.focus();
+
+  let printConfirmed = false;
+
+  // print event
+  printWindow.onafterprint = function() {
+    if (printConfirmed) {
+      printWindow.close();
+      window.location.reload(); // শুধু print confirm হলে
+    } else {
+      printWindow.close(); // cancel করলে close হবে
+    }
+  };
+
+  // wait for images to load before print
+  printWindow.onload = function() {
+    setTimeout(() => {
+      printConfirmed = true;
+      printWindow.print();
+    }, 300); // 0 থেকে 300ms delay করলে image load হয়ে যাবে
+  };
+
+} else {
+  alert('Popup blocked! Please allow popups for this site.');
+}
+
+
+}
+</script>
+
+
+<script>  
+
+// 🔸 Scroll to bottom of product table
+function scrollToBottom() {
+  const section = document.getElementById('product-table-section');
+  section.scrollTop = section.scrollHeight;
+}
+
+
+
+// ✅ Update inside add-row function
+function addRowToTable(description, rate, qty) {
+  const amount = rate * qty;
+  const tr = document.createElement('tr');
+  const slNo = productTableBody.children.length + 1;
+
+  tr.innerHTML = `
+    <td>${slNo}</td>
+    <td class="description">${description}</td>
+    <td class="qty">${qty}</td>
+    <td class="rate">${rate.toFixed(2)}</td>
+    <td class="amount">${amount.toFixed(2)}</td>
+    <td><button class="delete-btn">Delete</button></td>
+  `;
+  productTableBody.appendChild(tr);
+  tr.querySelector('.delete-btn').addEventListener('click', function (e) {
+    deleteRow(e);
+    updateRowCount(); // ✅ Update count after delete
+  });
+
+  updateSummary();
+  updateRowCount(); // ✅ Update count after add
+}
+
+  // Get references
+  const itemBarcodeInput = document.getElementById('itemBarcode');
+  const salePriceInput = document.getElementById('salePrice');
+  const saleQtyInput = document.getElementById('saleQty');
+  const quotationNumberInput = document.getElementById('quotationNumber');
+  const productTableBody = document.querySelector('#productTable tbody');
+
+  const totalQtyElem = document.getElementById('totalQty');
+  const totalAmountElem = document.getElementById('totalAmount');
+  const discountPercentInput = document.getElementById('discountPercent');
+  const discountAmountElem = document.getElementById('discountAmount');
+  const subTotalElem = document.getElementById('SubTotal');
+
+<!--  ✅⤵🔰Auto-generate Quotation Number (Random + Timestamp  ✅⤵🔰-->
+<!--  ✅⤵🔰Auto-generate Quotation Number (Random + Timestamp  ✅⤵🔰-->
+
+function generateQuotationNumber() {
+  const now = new Date();
+  const yearShort = String(now.getFullYear()).slice(-2); // last 2 digits of year
+  const month = String(now.getMonth() + 1).padStart(2, '0'); // current month 01-12
+  const quotationNumberInput = document.getElementById('quotationNumber');
+
+  // Custom Format: 24INV<YY>T BIS<MM>
+  const inv = `24TBI S${yearShort}${month}`;
+
+  quotationNumberInput.value = inv;
+}
+
+// Run on page load
+generateQuotationNumber();
+
+<!--  ✅⤵🔰Auto-generate CustomerID  ✅⤵🔰-->
+
+   function generateCustomerID() {
+    const prefix = "24TBI S";
+
+    const now = new Date();
+    const yearShort = String(now.getFullYear()).slice(2); // 2025 → 25
+    const month = String(now.getMonth() + 1).padStart(2, "0"); // 1 → 01
+
+    // 🔥 Auto Increase 2-digit number (local storage)
+    let serial = localStorage.getItem("tbiSerial");
+
+    if (!serial) {
+      serial = 1;
+    } else {
+      serial = parseInt(serial) + 1;
+    }
+
+    localStorage.setItem("tbiSerial", serial);
+    const serial2digit = String(serial).padStart(2, "0");
+    const finalID = `${prefix}${yearShort}${month}${serial2digit}`;
+    document.getElementById("customerId").value = finalID;
+  }
+
+  generateCustomerID();
+
+
+  // ✅ Update Summary: Qty, Amount
+  function updateSummary() {
+    let totalQty = 0;
+    let totalAmount = 0;
+
+    productTableBody.querySelectorAll('tr').forEach(row => {
+      const qty = parseFloat(row.querySelector('.qty').textContent) || 0;
+      const amount = parseFloat(row.querySelector('.amount').textContent) || 0;
+      totalQty += qty;
+      totalAmount += amount;
+    });
+
+    totalQtyElem.textContent = totalQty;
+    totalAmountElem.textContent = totalAmount.toFixed(2);
+    updateDiscountAndSubTotal();
+  }
+
+  // ✅ Update Discount and Subtotal
+  function updateDiscountAndSubTotal() {
+    const total = parseFloat(totalAmountElem.textContent) || 0;
+    const discountPercent = parseFloat(discountPercentInput.value) || 0;
+    const discountAmount = (total * discountPercent) / 100;
+    const subTotal = total - discountAmount;
+
+    discountAmountElem.textContent = discountAmount.toFixed(2);
+    subTotalElem.textContent = subTotal.toFixed(2);
+  }
+
+  // ✅ Delete row
+  function deleteRow(event) {
+    const btn = event.target;
+    const row = btn.closest('tr');
+    row.remove();
+    updateSummary();
+  }
+
+  // ✅ Keyboard navigation & double Enter on quantity
+  itemBarcodeInput.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      salePriceInput.focus();
+    }
+  });
+
+  salePriceInput.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      saleQtyInput.focus();
+    }
+  });
+
+  let qtyEnterCount = 0;
+  saleQtyInput.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      qtyEnterCount++;
+
+      if (qtyEnterCount === 2) {
+        qtyEnterCount = 0;
+
+        const description = itemBarcodeInput.value.trim();
+        const rate = parseFloat(salePriceInput.value);
+        const qty = parseInt(saleQtyInput.value);
+
+        if (!description || isNaN(rate) || isNaN(qty) || qty < 1) return;
+
+        const amount = rate * qty;
+        const tr = document.createElement('tr');
+        const slNo = productTableBody.children.length + 1;
+
+        tr.innerHTML = `
+          <td>${slNo}</td>
+          <td class="description">${description}</td>
+          <td class="qty">${qty}</td>
+          <td class="rate">${rate.toFixed(2)}</td>
+          <td class="amount">${amount.toFixed(2)}</td>
+          <td><button class="delete-btn">Delete</button></td>
+        `;
+        productTableBody.appendChild(tr);
+        tr.querySelector('.delete-btn').addEventListener('click', deleteRow);
+
+        itemBarcodeInput.value = '';
+        salePriceInput.value = '';
+        saleQtyInput.value = '';
+        itemBarcodeInput.focus();
+
+        updateSummary();
+      }
+    } else {
+      qtyEnterCount = 0; // reset if any other key
+    }
+  });
+
+  // ✅ Update discount/subtotal on input change
+  discountPercentInput.addEventListener('input', updateDiscountAndSubTotal);
+</script>
+<script>
+  // 👉 Enter press: Summary Fields (VAT, Discount %)
+  document.getElementById('vatInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      document.getElementById('discountPercent').focus();
+    }
+  });
+
+  document.getElementById('discountPercent').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      // Optional: Go to Customer ID field or anything else
+      document.getElementById('customerId').focus();
+    }
+  });
+
+  // 👉 Enter press: Customer Info Fields (chain focus)
+  document.getElementById('customerId').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      document.getElementById('customerMobile').focus();
+    }
+  });
+
+  document.getElementById('customerMobile').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      document.getElementById('customerName').focus();
+    }
+  });
+
+  document.getElementById('customerName').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      document.getElementById('customerAddress').focus();
+    }
+  });
+
+  document.getElementById('customerAddress').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      document.getElementById('itemBarcode').focus(); // goes back to item input
+    }
+  });
+</script>
+
+
+<!-- 🔻 Simple One-Line Footer 🔻 -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+<footer style="
+  background: #2c3e50;
+  color: white;
+  padding: 4px 10px;
+  font-size: 16px;
+  text-align: center;
+  margin-top: 5px;
+  border-top: 2px solid #27ae60;
+  width: 100%;
+  left: 0;
+  right: 0;
+  bottom: 0;
+">
+  <span>System by: <strong>Tech BD IT Solutions</strong></span> | 
+  <span>Developed by: <strong>Md. Jems Ahmed Joy</strong></span> |
+  
+  <i class="fas fa-globe"></i> 
+  <a href="https://www-tbdits.github.io/techbditsolutions.com" target="_blank" style="
+    color: #1abc9c; 
+    text-decoration: none;
+  ">www.techbditsolutions.com</a> |
+  
+  <i class="fas fa-phone-alt"></i> +8809638665205, +8801516-573873 , +8801323056735 |
+  
+  <i class="fas fa-map-marker-alt"></i> Dhaka-1205
+</footer>
+
