@@ -695,7 +695,7 @@ function openPaymentPopup() {
       <body>
 
         <h3>Payment Method</h3>
-        <p class="amount"><strong>Quotation Amount:</strong> ৳${totalAmount}</p>
+        <p class="amount"><strong>Quotation Amount:</strong> ${totalAmount}৳</p>
         <label class="label" for="paymentSelect">Payment Type</label>
 
         <div class="custom-select" id="customSelect">
@@ -844,8 +844,8 @@ const rowsHTML = rowsData.map((r, index) => `
     <td>${index + 1}</td> <!-- SL. NO -->
     <td>${r.description}</td>
     <td>${r.qty}</td>
-    <td>৳${r.rate}</td>
-    <td>৳${r.amount}</td>
+    <td>${r.rate}</td>
+    <td>${r.amount}</td>
   </tr>
 `).join('');
 
