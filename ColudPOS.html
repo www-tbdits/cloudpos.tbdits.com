@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Cloud Point of Sale</title>
-<style>
+<style>0
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 20px 30px;
@@ -192,9 +192,9 @@ footer {
   flex: 1 1 500px;           /* ফ্লেক্স বেসিস এবং গ্রোউথ সেট */
   background-color: #fff;    /* হোয়াইট ব্যাকগ্রাউন্ড */
   padding: 0px;              /* প্যাডিং */
-  border-radius: 10;          /* কোন রাউন্ডেড কর্নার নেই */
+  border-radius: 0;          /* কোন রাউন্ডেড কর্নার নেই */
   border: 1px solid #000;    /* কালো বর্ডার */
-  max-height: 335px;         /* ম্যাক্সিমাম হাইট ৪০০px */
+  max-height: 334px;         /* ম্যাক্সিমাম হাইট ৪০০px */
   overflow-y: auto;          /* ভার্টিক্যাল স্ক্রল */
   position: relative;        /* পজিশন রিলেটিভ */
 }
@@ -214,7 +214,7 @@ footer {
 
   table th, table td {
     border: 1px solid #ddd;
-    padding: 8px;
+    padding: 5px;
     text-align: center;
   }
 
@@ -239,7 +239,7 @@ footer {
 .summary-row {
   display: flex;
   align-items: center;
-  margin-bottom: 12px;
+  margin-bottom: 15.3px;
 }
 
 .summary-row label {
@@ -253,7 +253,7 @@ footer {
   flex: 1;
   padding: 6px 8px;
   font-size: 14px;
-  border-radius: 4px;
+  border-radius: 3px;
   border: 1px solid #000;
   background: #f9f9f9;
   text-align: right;
@@ -458,7 +458,9 @@ footer {
       <label for="customerAddress">Address:</label>
       <input type="text" id="customerAddress" placeholder="" />
     </div>
+
 <!-- Remarks Input Box: Single Line Fixed -->
+
 <div class="form-group-horizontal" style="margin-top: 10px; font-family: Arial, sans-serif;">
   <label for="remarks" style="display: block; font-weight: bold; margin-bottom: 3px;">Remarks:</label>
   <textarea 
@@ -468,7 +470,7 @@ footer {
     style="width: 100%; 
            height: 25px; /* single line height */
            padding: 4px; 
-           font-size: 12px; 
+           font-size: 15px; 
            border: 1px solid #000; 
            border-radius: 4px; 
            box-sizing: border-box; 
@@ -689,7 +691,7 @@ function openPaymentPopup() {
       <body>
 
         <h3>Payment Method</h3>
-        <p class="amount"><strong>Invoice Amount:</strong> ৳${totalAmount}</p>
+        <p class="amount"><strong>Invoice Amount:</strong> ${totalAmount}৳</p>
         <label class="label" for="paymentSelect">Payment Type</label>
 
         <div class="custom-select" id="customSelect">
@@ -838,8 +840,8 @@ const rowsHTML = rowsData.map((r, index) => `
     <td>${index + 1}</td> <!-- SL. NO -->
     <td>${r.description}</td>
     <td>${r.qty}</td>
-    <td>৳${r.rate}</td>
-    <td>৳${r.amount}</td>
+    <td>${r.rate}</td>
+    <td>${r.amount}</td>
   </tr>
 `).join('');
 
@@ -1206,13 +1208,13 @@ th, td {
         <!-- ✅⤵🔰Summary Block ✅⤵🔰-->
         <div class="summary">
           <p><strong>Total Qty:</strong> ${totalQty}</p>
-          <p><strong>Total:</strong> ৳${totalAmount}</p>
+          <p><strong>Total:</strong> ${totalAmount}৳</p>
           <p><strong>VAT (%):</strong> ${vatPercent}%</p>
-          <p><strong>VAT Amount:</strong> ৳${vatAmount}</p>
+          <p><strong>VAT Amount:</strong> ${vatAmount}৳</p>
           <p><strong>Discount (%):</strong> ${discountPercent}%</p>
-          <p><strong>Discount Amount:</strong> ৳${discountAmount}</p>
+          <p><strong>Discount Amount:</strong> ${discountAmount}৳</p>
           <hr>
-          <p style="font-size: 16px;"><strong>Sub Total:</strong> ৳${subTotal}</p>
+          <p style="font-size: 16px;"><strong>Sub Total:</strong> ${subTotal}৳</p>
         </div>
 
        <!-- ✅⤵🔰Payment Info ✅⤵🔰-->
@@ -1595,7 +1597,7 @@ generateInvoiceNumber();
   background: #2c3e50;
   color: white;
   padding: 4px 10px;
-  font-size: 14px;
+  font-size: 16px;
   text-align: center;
   margin-top: 5px;
   border-top: 2px solid #27ae60;
