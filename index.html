@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login- Smart POS</title>
+    <!-- আধুনিক ও প্রিমিয়াম ফন্টের জন্য Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Cinzel:wght@700;900&family=Outfit:wght@700;800;900&display=swap" rel="stylesheet">
+    <!-- FontAwesome আইকন -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -13,6 +15,7 @@
             box-sizing: border-box;
             font-family: 'Plus Jakarta Sans', sans-serif;
         }
+
         body {
             background-color: #e4ebf5;
             display: flex;
@@ -22,6 +25,8 @@
             overflow: hidden;
             position: relative;
         }
+
+        /* মূল লগইন সার্কেল কন্টেইনার - নিখুঁত নিউমর্ফিজম এবং হালকা গ্লো */
         .login-circle {
             width: 440px;
             height: 440px;
@@ -35,10 +40,13 @@
             padding: 40px;
             transition: all 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55);
         }
+
+        /* স্মুথ এক্সিট অ্যানিমেশন */
         .login-circle.exit-animation {
             transform: scale(0) rotate(360deg);
             opacity: 0;
         }
+
         .form-content {
             width: 100%;
             text-align: center;
@@ -46,6 +54,8 @@
             flex-direction: column;
             align-items: center;
         }
+
+        /* SIGN ইন হেডার - নতুন প্রিমিয়াম স্টাইল */
         .brand-header {
             margin-bottom: 25px;
             display: flex;
@@ -53,6 +63,7 @@
             align-items: center;
             justify-content: center;
         }
+
         .brand-title {
             font-family: 'Cinzel', serif;
             font-size: 32px;
@@ -62,6 +73,7 @@
             color: #1e3a8a;
             text-shadow: 2px 2px 4px #cbced1, -2px -2px 4px #ffffff;
         }
+
         .input-group {
             margin-bottom: 18px;
             width: 100%;
@@ -69,6 +81,7 @@
             justify-content: center;
             position: relative;
         }
+
         .input-group input {
             width: 90%;
             padding: 14px 22px;
@@ -82,13 +95,17 @@
             box-shadow: inset 6px 6px 12px #cbced1, inset -6px -6px 12px #ffffff;
             transition: all 0.3s ease;
         }
+
         .input-group input::placeholder {
             color: #94a3b8;
             font-weight: 500;
         }
+
         .input-group input:focus {
             box-shadow: inset 3px 3px 6px #cbced1, inset -3px -3px 6px #ffffff, 0 0 12px rgba(39, 94, 254, 0.2);
         }
+
+        /* পাসওয়ার্ড টগল আইকন */
         .toggle-password {
             position: absolute;
             right: 42px;
@@ -99,9 +116,12 @@
             font-size: 15px;
             transition: color 0.3s;
         }
+
         .toggle-password:hover {
             color: #275efe;
         }
+
+        /* এরর মেসেজ */
         .error-msg {
             color: #ef4444;
             font-size: 12px;
@@ -110,11 +130,13 @@
             display: none;
             animation: shake 0.3s ease-in-out;
         }
+
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
             25% { transform: translateX(-5px); }
             75% { transform: translateX(5px); }
         }
+
         .btn-submit {
             width: 87%;
             padding: 13px;
@@ -134,17 +156,22 @@
             align-items: center;
             gap: 8px;
         }
+
         .btn-submit:hover {
             color: #1d4ed8;
             box-shadow: 4px 4px 10px #cbced1, -4px -4px 10px #ffffff;
         }
+
         .btn-submit:active {
             box-shadow: inset 4px 4px 8px #cbced1, inset -4px -4px 8px #ffffff;
         }
+
         .btn-submit:disabled {
             opacity: 0.8;
             cursor: not-allowed;
         }
+
+        /* ফুটার ডিজাইন */
         .site-footer {
             position: absolute;
             bottom: 0;
@@ -161,6 +188,7 @@
             font-weight: 500;
             border-top: 1px solid rgba(255, 255, 255, 0.6);
         }
+
         .footer-left {
             display: flex;
             align-items: center;
@@ -168,36 +196,44 @@
             font-weight: 600;
             color: #1e3a8a;
         }
+
         .footer-left i {
             color: #275efe;
             font-size: 14px;
         }
+
         .footer-right {
             display: flex;
             align-items: center;
             gap: 20px;
         }
+
         .footer-item {
             display: flex;
             align-items: center;
             gap: 6px;
         }
+
         .footer-item i {
             color: #275efe;
         }
+
         .footer-item strong {
             color: #334155;
         }
+
         .footer-link {
             color: #334155;
             text-decoration: none;
             font-weight: 700;
             transition: color 0.3s;
         }
+
         .footer-link:hover {
             color: #2563eb;
             text-decoration: none;
         }
+
         @media (max-width: 768px) {
             .login-circle {
                 width: 370px;
@@ -217,27 +253,33 @@
         }
     </style>
 </head>
-<body oncontextmenu="return false;"> <!-- রাইট ক্লিক ডিজেবল করার জন্য -->
+<body>
 
+    <!-- মূল লগইন সার্কেল কন্টেইনার -->
     <div class="login-circle" id="loginContainer">
         <form class="form-content" id="formContent" onsubmit="handleLogin(event)">
             <div class="brand-header">
                 <span class="brand-title">SIGN IN</span>
             </div>
+            
             <div class="input-group">
                 <input type="text" id="username" placeholder="Username" required autocomplete="username">
             </div>
+            
             <div class="input-group">
                 <input type="password" id="password" placeholder="Password" required autocomplete="current-password">
                 <i class="fa-solid fa-eye toggle-password" id="togglePassword" onclick="togglePasswordVisibility()"></i>
             </div>
+
             <div class="error-msg" id="errorMsg">Invalid username or password!</div>
+            
             <button type="submit" class="btn-submit" id="submitBtn">
                 <span>Login</span>
             </button>
         </form>
     </div>
 
+    <!-- ফুটার -->
     <footer class="site-footer">
         <div class="footer-left">
             <i class="fa-solid fa-cloud-arrow-up"></i>
@@ -259,7 +301,7 @@
         </div>
     </footer>
 
-<script>
+    <script>
         // পাসওয়ার্ড শো/হাইডের ফাংশন
         function togglePasswordVisibility() {
             const passwordInput = document.getElementById('password');
@@ -285,7 +327,6 @@
             const errorMsg = document.getElementById('errorMsg');
             const submitBtn = document.getElementById('submitBtn');
 
-            // ইউজার কন্ট্রোলার ডাটা লোকাল স্টোরেজে থাকতে পারে, কারণ এটি অ্যাডমিন প্যানেল থেকে তৈরি হয়
             const userControlUsers = JSON.parse(localStorage.getItem('tbdits_users')) || [];
             const defaultUsers = [
                 { 
@@ -303,21 +344,18 @@
                 submitBtn.disabled = true;
                 submitBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Logging in...`;
 
-                // [পরিবর্তন]: এখানে localStorage এর বদলে sessionStorage ব্যবহার করা হয়েছে।
-                // এর ফলে ব্রাউজার বা ট্যাব কেটে দিলে এই ডেটা মুছে যাবে এবং রি-স্টার্ট করলে আর অটো ড্যাশবোর্ডে যাবে না।
+                // এখানে localStorage এর পরিবর্তে sessionStorage ব্যবহার করা হয়েছে
+                // এতে ব্রাউজার বা ট্যাব কেটে দিলে এই ডাটা অটোমেটিক মুছে যাবে
                 sessionStorage.setItem('tbdits_logged_in', 'true');
                 sessionStorage.setItem('tbdits_user', JSON.stringify(matchedUser));
 
-                // সুন্দর অ্যানিমেশন ক্লাস যোগ করা
                 container.classList.add('exit-animation');
 
-                // অ্যানিমেশন শেষ হওয়া মাত্রই ড্যাশবোর্ডে চলে যাওয়া
                 setTimeout(() => {
                     window.location.href = "Dashboard.html";
                 }, 450);
 
             } else {
-                // ভুল হলে এরর মেসেজ দেখানো
                 errorMsg.style.display = 'block';
                 const passwordField = document.getElementById('password');
                 passwordField.value = '';
