@@ -259,60 +259,77 @@
         </div>
     </footer>
 
-    <script>
-        // রাইট ক্লিক এবং F12 / Inspect রোধ করার প্রাথমিক স্ক্রিপ্ট
-        document.addEventListener('keydown', function(event) {
-            if (event.keyCode === 123 || (event.ctrlKey && event.shiftKey && (event.keyCode === 73 || event.keyCode === 74)) || (event.ctrlKey && event.keyCode === 85)) {
-                event.preventDefault();
-                return false;
-            }
+<script>
+        // ১. পেজ লোড হওয়ার সাথে সাথেই চেক করা ইউজার কি অলরেডি লগইন করা নাকি লগআউট করেছে
+        window.addEventListener('pageshow', function(event) {
+            // ব্রাউজার ক্যাশ বা ব্যাক বাটন থেকে পেজ লোড হলে এটি রান করবে
+            const isLoggedIn = localStorage.getItem('tbdits_logged_in');
+            
+            // যদি ইউজার সেশন রিমুভ না করে থাকে, তবে তাকে জোরপূর্বক ড্যাশবোর্ডে আটকে না রেখে 
+            // বরং ব্রাউজার হিস্ট্রি ক্লিয়ার করে দিতে হবে যাতে ব্যাক করলে আগের লগইন পেজ রিসেট হয়ে যায়।
         });
 
+        // পাসওয়ার্ড শো/হাইডের ফাংশন
         function togglePasswordVisibility() {
-            const p = document.getElementById('password');
-            const i = document.getElementById('togglePassword');
-            if (p.type === 'password') {
-                p.type = 'text';
-                i.classList.replace('fa-eye', 'fa-eye-slash');
+            const passwordInput = document.getElementById('password');
+            const toggleIcon = document.getElementById('togglePassword');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.classList.remove('fa-eye');
+                toggleIcon.classList.add('fa-eye-slash');
             } else {
-                p.type = 'password';
-                i.classList.replace('fa-eye-slash', 'fa-eye');
+                passwordInput.type = 'password';
+                toggleIcon.classList.remove('fa-eye-slash');
+                toggleIcon.classList.add('fa-eye');
             }
         }
 
-        // অবস্কেটেড বা এনক্রিপ্টেড লজিক যেন সাধারণ চোখে পাসওয়ার্ড বা ইউজারনেম দেখা না যায়
-        const _0x3a4b = ['jems', '6735', 'tbdits_users', 'tbdits_logged_in', 'tbdits_user', 'exit-animation', 'Dashboard.html'];
         function handleLogin(event) {
             event.preventDefault();
-            const u = document.getElementById('username').value.trim();
-            const p = document.getElementById('password').value.trim();
-            const c = document.getElementById('loginContainer');
-            const e = document.getElementById('errorMsg');
-            const b = document.getElementById('submitBtn');
 
-            const customUsers = JSON.parse(localStorage.getItem(_0x3a4b[2])) || [];
-            const defUsers = [{ username: _0x3a4b[0], password: _0x3a4b[1], permissions: ['Sales Reports', 'Sales of Point', 'Customers', 'Products', 'User Control', 'Inventory', 'Help', 'Logout'] }];
-            const allUsers = [...defUsers, ...customUsers];
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const container = document.getElementById('loginContainer');
+            const errorMsg = document.getElementById('errorMsg');
+            const submitBtn = document.getElementById('submitBtn');
 
-            const found = allUsers.find(x => x.username === u && x.password === p);
+            const userControlUsers = JSON.parse(localStorage.getItem('tbdits_users')) || [];
+            const defaultUsers = [
+                { 
+                    username: 'jems', 
+                    password: '6735', 
+                    permissions: ['Sales Reports', 'Sales of Point', 'Customers', 'Products', 'User Control', 'Inventory', 'Help', 'Logout'] 
+                }
+            ];
+            const users = [...defaultUsers, ...userControlUsers];
 
-            if (found) {
-                e.style.display = 'none';
-                b.disabled = true;
-                b.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Logging in...`;
+            const matchedUser = users.find(user => user.username === username && user.password === password);
 
-                localStorage.setItem(_0x3a4b[3], 'true');
-                localStorage.setItem(_0x3a4b[4], JSON.stringify(found));
-                c.classList.add(_0x3a4b[5]);
+            if (matchedUser) {
+                errorMsg.style.display = 'none';
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Logging in...`;
 
+                // লোকাল স্টোরেজে ইউজার ডেটা সেভ করা
+                localStorage.setItem('tbdits_logged_in', 'true');
+                localStorage.setItem('tbdits_user', JSON.stringify(matchedUser));
+
+                // সুন্দর অ্যানিমেশন ক্লাস যোগ করা
+                container.classList.add('exit-animation');
+
+                // অ্যানিমেশন শেষ হওয়া মাত্রই ড্যাশবোর্ডে চলে যাওয়া এবং হিস্ট্রি রিপ্লেস করা
                 setTimeout(() => {
-                    window.location.href = _0x3a4b[6];
+                    // location.replace ব্যবহার করলে ব্রাউজারের হিস্ট्रीতে লগইন পেজটি আর থাকবে না, 
+                    // ফলে ব্যাক বাটন কাজ করবে না।
+                    window.location.replace("Dashboard.html");
                 }, 450);
+
             } else {
-                e.style.display = 'block';
-                const pf = document.getElementById('password');
-                pf.value = '';
-                pf.focus();
+                errorMsg.style.display = 'block';
+                const passwordField = document.getElementById('password');
+                passwordField.value = '';
+                passwordField.focus();
             }
         }
     </script>
