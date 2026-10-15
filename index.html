@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login- Smart POS</title>
+    <title>Login - Smart POS</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Cinzel:wght@700;900&family=Outfit:wght@700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -222,7 +222,7 @@
     <div class="login-circle" id="loginContainer">
         <form class="form-content" id="formContent" onsubmit="handleLogin(event)">
             <div class="brand-header">
-                <span class="brand-title">SIGN IN</span>
+                <span class="brand-title">SIGN IN2</span>
             </div>
             <div class="input-group">
                 <input type="text" id="username" placeholder="Username" required autocomplete="username">
@@ -260,6 +260,13 @@
     </footer>
 
 <script>
+    // অটো চেক: অলরেডি লগইন করা থাকলে সরাসরি ড্যাশবোর্ডে পাঠিয়ে দিবে
+    window.addEventListener('DOMContentLoaded', () => {
+        if (sessionStorage.getItem('tbdits_logged_in') === 'true') {
+            window.location.replace("dashboard.html"); // নিশ্চিত করুন আপনার ফাইলের নাম ছোট বা বড় হাতের যা আছে এখানে সেটাই লিখবেন
+        }
+    });
+
     // পাসওয়ার্ড শো/হাইডের ফাংশন
     function togglePasswordVisibility() {
         const passwordInput = document.getElementById('password');
@@ -302,14 +309,15 @@
             submitBtn.disabled = true;
             submitBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Logging in...`;
 
-            // sessionStorage ব্যবহার করা হয়েছে যাতে ট্যাব বা ব্রাউজার ক্লোজ করলেই লগআউট হয়ে যায়
+            // সেশন সেট করা
             sessionStorage.setItem('tbdits_logged_in', 'true');
             sessionStorage.setItem('tbdits_user', JSON.stringify(matchedUser));
 
             container.classList.add('exit-animation');
 
+            // প্রফেশনাল স্মুথ ট্রানজিশনের জন্য window.location.replace ব্যবহার করা হলো
             setTimeout(() => {
-                window.location.href = "Dashboard.html";
+                window.location.replace("dashboard.html"); // <-- লক্ষ্য করুন: আপনার ড্যাশবোর্ড ফাইলের নামের সাথে হুবহু মিল রাখুন (যেমন: Dashboard.html হলে সেটিই লিখুন)
             }, 450);
 
         } else {
