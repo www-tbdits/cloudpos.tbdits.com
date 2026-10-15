@@ -1,145 +1,320 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Login - Tech BD IT Solutions</title>
-  <link rel="icon" type="image/png" href="images/favicon.png"> <!-- ✅ favicon -->
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    html, body {
-  height: 95%;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: url('images/cloud.jpg') no-repeat center center fixed; /* ✅ bg image set */
-  background-size: cover; /* ✅ পুরো পেজে fit করবে */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0 20px;
-  color: #333;
-}
-
-    .login-container {
-      background: #fff;
-      border-radius: 10px;
-      border: 4px solid #00BFFF;
-      padding: 25px 25px;
-      width: 290px; /* ✅ আরও ক্যাপানো */
-      box-shadow: 0 6px 15px rgba(0,0,0,0.15);
-      text-align: center;
-      position: relative;
-    }
-
-    .logo {
-      margin-bottom: 0px;
-    }
-    .logo img {
-      width: 150px;
-      border-radius: 8px;
-    }
-
-    h2 {
-      margin-bottom: 20px;
-      font-weight: 600;
-      font-size: 21px;
-      color: #0B3861;
-    }
-
-    form {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-
-    input[type="text"], input[type="password"] {
-      padding: 10px 14px;
-      font-size: 14px;
-      border-radius: 10px;
-      border: 1.5px solid #0B3861;
-      background: #f8f9fa;
-      color: #0B3861;
-    }
-
-    button {
-      padding: 10px;
-      font-size: 16px;
-      font-weight: bold;
-      color: #fff;
-      background: linear-gradient(135deg, #0B3861, #2c5ca9);
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: 0.3s ease;
-    }
-
-    button:hover {
-      background: linear-gradient(135deg, #2c5ca9, #0B3861);
-    }
-
-    .footer-text {
-      margin-top: 20px;
-      font-size: 13px;
-      color: #0B3861;
-      font-weight: 600;
-      line-height: 1.4;
-    }
-
-    .footer-text strong {
-      color: #2c5ca9;
-    }
-
-    @media (max-width: 400px) {
-      .login-container {
-        width: 90%;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login- Smart POS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Cinzel:wght@700;900&family=Outfit:wght@700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        body {
+            background-color: #e4ebf5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+        .login-circle {
+            width: 440px;
+            height: 440px;
+            background-color: #e4ebf5;
+            border-radius: 50%;
+            box-shadow: 20px 20px 40px #cbced1, -20px -20px 40px #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            padding: 40px;
+            transition: all 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+        .login-circle.exit-animation {
+            transform: scale(0) rotate(360deg);
+            opacity: 0;
+        }
+        .form-content {
+            width: 100%;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .brand-header {
+            margin-bottom: 25px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .brand-title {
+            font-family: 'Cinzel', serif;
+            font-size: 32px;
+            font-weight: 900;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: #1e3a8a;
+            text-shadow: 2px 2px 4px #cbced1, -2px -2px 4px #ffffff;
+        }
+        .input-group {
+            margin-bottom: 18px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            position: relative;
+        }
+        .input-group input {
+            width: 90%;
+            padding: 14px 22px;
+            border: none;
+            outline: none;
+            background: #e4ebf5;
+            font-size: 14px;
+            color: #1e293b;
+            font-weight: 600;
+            border-radius: 30px;
+            box-shadow: inset 6px 6px 12px #cbced1, inset -6px -6px 12px #ffffff;
+            transition: all 0.3s ease;
+        }
+        .input-group input::placeholder {
+            color: #94a3b8;
+            font-weight: 500;
+        }
+        .input-group input:focus {
+            box-shadow: inset 3px 3px 6px #cbced1, inset -3px -3px 6px #ffffff, 0 0 12px rgba(39, 94, 254, 0.2);
+        }
+        .toggle-password {
+            position: absolute;
+            right: 42px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #94a3b8;
+            font-size: 15px;
+            transition: color 0.3s;
+        }
+        .toggle-password:hover {
+            color: #275efe;
+        }
+        .error-msg {
+            color: #ef4444;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: none;
+            animation: shake 0.3s ease-in-out;
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        .btn-submit {
+            width: 87%;
+            padding: 13px;
+            border: none;
+            outline: none;
+            background: linear-gradient(145deg, #f1f5f9, #dbeafe);
+            color: #2563eb;
+            font-size: 15px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 6px 6px 14px #cbced1, -6px -6px 14px #ffffff;
+            transition: all 0.2s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-submit:hover {
+            color: #1d4ed8;
+            box-shadow: 4px 4px 10px #cbced1, -4px -4px 10px #ffffff;
+        }
+        .btn-submit:active {
+            box-shadow: inset 4px 4px 8px #cbced1, inset -4px -4px 8px #ffffff;
+        }
+        .btn-submit:disabled {
+            opacity: 0.8;
+            cursor: not-allowed;
+        }
+        .site-footer {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: #e4ebf5;
+            padding: 14px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0px -5px 20px rgba(203, 205, 209, 0.6);
+            font-size: 12px;
+            color: #627490;
+            font-weight: 500;
+            border-top: 1px solid rgba(255, 255, 255, 0.6);
+        }
+        .footer-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            color: #1e3a8a;
+        }
+        .footer-left i {
+            color: #275efe;
+            font-size: 14px;
+        }
+        .footer-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .footer-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .footer-item i {
+            color: #275efe;
+        }
+        .footer-item strong {
+            color: #334155;
+        }
+        .footer-link {
+            color: #334155;
+            text-decoration: none;
+            font-weight: 700;
+            transition: color 0.3s;
+        }
+        .footer-link:hover {
+            color: #2563eb;
+            text-decoration: none;
+        }
+        @media (max-width: 768px) {
+            .login-circle {
+                width: 370px;
+                height: 370px;
+                padding: 25px;
+            }
+            .site-footer {
+                flex-direction: column;
+                gap: 8px;
+                text-align: center;
+                padding: 12px 15px;
+            }
+            .footer-right {
+                flex-direction: column;
+                gap: 5px;
+            }
+        }
+    </style>
 </head>
-<body>
-  <div class="login-container" role="main" aria-label="Login Form">
-    <div class="logo">
-      <img src="images/PosLogo.png" alt=" " />
+<body oncontextmenu="return false;"> <!-- রাইট ক্লিক ডিজেবল করার জন্য -->
+
+    <div class="login-circle" id="loginContainer">
+        <form class="form-content" id="formContent" onsubmit="handleLogin(event)">
+            <div class="brand-header">
+                <span class="brand-title">SIGN IN</span>
+            </div>
+            <div class="input-group">
+                <input type="text" id="username" placeholder="Username" required autocomplete="username">
+            </div>
+            <div class="input-group">
+                <input type="password" id="password" placeholder="Password" required autocomplete="current-password">
+                <i class="fa-solid fa-eye toggle-password" id="togglePassword" onclick="togglePasswordVisibility()"></i>
+            </div>
+            <div class="error-msg" id="errorMsg">Invalid username or password!</div>
+            <button type="submit" class="btn-submit" id="submitBtn">
+                <span>Login</span>
+            </button>
+        </form>
     </div>
 
-    <h2>Cloud POS by Tech BD IT Solutions</h2>
+    <footer class="site-footer">
+        <div class="footer-left">
+            <i class="fa-solid fa-cloud-arrow-up"></i>
+            <span>Smart POS</span>
+        </div>
+        <div class="footer-right">
+            <div class="footer-item">
+                <i class="fa-solid fa-headset"></i>
+                <span>Need Help? Call: <strong>+880 9638665205</strong></span>
+            </div>
+            <div class="footer-item">
+                <i class="fa-solid fa-code-branch"></i>
+                <span>System by: <strong>Tech bd it solutions</strong></span>
+            </div>
+            <div class="footer-item">
+                <i class="fa-solid fa-globe"></i>
+                <span>System by: <a href="https://www-tbdits.github.io/techbditsolutions.com/" target="_blank" class="footer-link">www.techbditsolutions.com</a></span>
+            </div>
+        </div>
+    </footer>
 
-    <form id="login-form" onsubmit="return handleLogin(event)">
-      <input type="text" id="username" name="username" placeholder="Username" required />
-      <input type="password" id="password" name="password" placeholder="Password" required />
-      <button type="submit">Login</button>
-    </form>
+    <script>
+        // রাইট ক্লিক এবং F12 / Inspect রোধ করার প্রাথমিক স্ক্রিপ্ট
+        document.addEventListener('keydown', function(event) {
+            if (event.keyCode === 123 || (event.ctrlKey && event.shiftKey && (event.keyCode === 73 || event.keyCode === 74)) || (event.ctrlKey && event.keyCode === 85)) {
+                event.preventDefault();
+                return false;
+            }
+        });
 
-    <div class="footer-text">
-      System By: <strong>Tech bd it solutions</strong><br />
-      Tel : 09638665205, 01516-573873
-    </div>
-  </div>
+        function togglePasswordVisibility() {
+            const p = document.getElementById('password');
+            const i = document.getElementById('togglePassword');
+            if (p.type === 'password') {
+                p.type = 'text';
+                i.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                p.type = 'password';
+                i.classList.replace('fa-eye-slash', 'fa-eye');
+            }
+        }
 
-  <script>
-   function handleLogin(e) {
-  e.preventDefault();
-  const username = document.getElementById('username').value.trim();
-  const password = document.getElementById('password').value.trim();
+        // অবস্কেটেড বা এনক্রিপ্টেড লজিক যেন সাধারণ চোখে পাসওয়ার্ড বা ইউজারনেম দেখা না যায়
+        const _0x3a4b = ['jems', '6735', 'tbdits_users', 'tbdits_logged_in', 'tbdits_user', 'exit-animation', 'Dashboard.html'];
+        function handleLogin(event) {
+            event.preventDefault();
+            const u = document.getElementById('username').value.trim();
+            const p = document.getElementById('password').value.trim();
+            const c = document.getElementById('loginContainer');
+            const e = document.getElementById('errorMsg');
+            const b = document.getElementById('submitBtn');
 
-  const userControlUsers = JSON.parse(localStorage.getItem('tbdits_users')) || [];
-  const defaultUsers = [{ username: 'jems', password: '6735', permissions: ['Sales Reports','Sales of Point','Customers','Products','User Control','Inventory','Help','Logout'] }];
-  const users = [...defaultUsers, ...userControlUsers];
+            const customUsers = JSON.parse(localStorage.getItem(_0x3a4b[2])) || [];
+            const defUsers = [{ username: _0x3a4b[0], password: _0x3a4b[1], permissions: ['Sales Reports', 'Sales of Point', 'Customers', 'Products', 'User Control', 'Inventory', 'Help', 'Logout'] }];
+            const allUsers = [...defUsers, ...customUsers];
 
-  const matchedUser = users.find(user => user.username === username && user.password === password);
+            const found = allUsers.find(x => x.username === u && x.password === p);
 
-  if (matchedUser) {
-    alert("Login Successful! Redirecting to Dashboard...");
-    localStorage.setItem('tbdits_logged_in', 'true');
-    localStorage.setItem('tbdits_user', JSON.stringify(matchedUser)); // ✅ full user save
-    window.location.href = "Dashboard.html";
-  } else {
-    alert("Invalid username or password!");
-  }
-}
+            if (found) {
+                e.style.display = 'none';
+                b.disabled = true;
+                b.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Logging in...`;
 
-  </script>
+                localStorage.setItem(_0x3a4b[3], 'true');
+                localStorage.setItem(_0x3a4b[4], JSON.stringify(found));
+                c.classList.add(_0x3a4b[5]);
+
+                setTimeout(() => {
+                    window.location.href = _0x3a4b[6];
+                }, 450);
+            } else {
+                e.style.display = 'block';
+                const pf = document.getElementById('password');
+                pf.value = '';
+                pf.focus();
+            }
+        }
+    </script>
 </body>
 </html>
