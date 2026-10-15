@@ -1,322 +1,678 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login- Smart POS</title>
-    <!-- Faveicon -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><path fill='%23275efe' d='M416 208c0-45.9-34.5-83.8-79.1-89.2C318.4 79.5 275.6 48 224 48c-61.9 0-112 50.1-112 112 0 7.8 .8 15.4 2.4 22.8C51.5 195.4 16 242.3 16 296c0 61.9 50.1 112 112 112h288c53 0 96-43 96-96 0-43.1-28.1-79.5-67-91.8z'/><path fill='%23ffffff' d='M256 192l-80 80h48v96h64v-96h48l-80-80z'/></svg>">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Cinzel:wght@700;900&family=Outfit:wght@700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-        }
-        body {
-            background-color: #e4ebf5;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            overflow: hidden;
-            position: relative;
-        }
-        .login-circle {
-            width: 440px;
-            height: 440px;
-            background-color: #e4ebf5;
-            border-radius: 50%;
-            box-shadow: 20px 20px 40px #cbced1, -20px -20px 40px #ffffff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            padding: 40px;
-            transition: all 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-        }
-        .login-circle.exit-animation {
-            transform: scale(0) rotate(360deg);
-            opacity: 0;
-        }
-        .form-content {
-            width: 100%;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .brand-header {
-            margin-bottom: 25px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-        .brand-title {
-            font-family: 'Cinzel', serif;
-            font-size: 32px;
-            font-weight: 900;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            color: #1e3a8a;
-            text-shadow: 2px 2px 4px #cbced1, -2px -2px 4px #ffffff;
-        }
-        .input-group {
-            margin-bottom: 18px;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            position: relative;
-        }
-        .input-group input {
-            width: 90%;
-            padding: 14px 22px;
-            border: none;
-            outline: none;
-            background: #e4ebf5;
-            font-size: 14px;
-            color: #1e293b;
-            font-weight: 600;
-            border-radius: 30px;
-            box-shadow: inset 6px 6px 12px #cbced1, inset -6px -6px 12px #ffffff;
-            transition: all 0.3s ease;
-        }
-        .input-group input::placeholder {
-            color: #94a3b8;
-            font-weight: 500;
-        }
-        .input-group input:focus {
-            box-shadow: inset 3px 3px 6px #cbced1, inset -3px -3px 6px #ffffff, 0 0 12px rgba(39, 94, 254, 0.2);
-        }
-        .toggle-password {
-            position: absolute;
-            right: 42px;
-            top: 50%;
-            transform: translateY(-50%);
-            cursor: pointer;
-            color: #94a3b8;
-            font-size: 15px;
-            transition: color 0.3s;
-        }
-        .toggle-password:hover {
-            color: #275efe;
-        }
-        .error-msg {
-            color: #ef4444;
-            font-size: 12px;
-            font-weight: 600;
-            margin-bottom: 8px;
-            display: none;
-            animation: shake 0.3s ease-in-out;
-        }
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            75% { transform: translateX(5px); }
-        }
-        .btn-submit {
-            width: 87%;
-            padding: 13px;
-            border: none;
-            outline: none;
-            background: linear-gradient(145deg, #f1f5f9, #dbeafe);
-            color: #2563eb;
-            font-size: 15px;
-            font-weight: 800;
-            letter-spacing: 1px;
-            border-radius: 30px;
-            cursor: pointer;
-            box-shadow: 6px 6px 14px #cbced1, -6px -6px 14px #ffffff;
-            transition: all 0.2s ease;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 8px;
-        }
-        .btn-submit:hover {
-            color: #1d4ed8;
-            box-shadow: 4px 4px 10px #cbced1, -4px -4px 10px #ffffff;
-        }
-        .btn-submit:active {
-            box-shadow: inset 4px 4px 8px #cbced1, inset -4px -4px 8px #ffffff;
-        }
-        .btn-submit:disabled {
-            opacity: 0.8;
-            cursor: not-allowed;
-        }
-        .site-footer {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background: #e4ebf5;
-            padding: 14px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0px -5px 20px rgba(203, 205, 209, 0.6);
-            font-size: 12px;
-            color: #627490;
-            font-weight: 500;
-            border-top: 1px solid rgba(255, 255, 255, 0.6);
-        }
-        .footer-left {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-weight: 600;
-            color: #1e3a8a;
-        }
-        .footer-left i {
-            color: #275efe;
-            font-size: 14px;
-        }
-        .footer-right {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-        .footer-item {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .footer-item i {
-            color: #275efe;
-        }
-        .footer-item strong {
-            color: #334155;
-        }
-        .footer-link {
-            color: #334155;
-            text-decoration: none;
-            font-weight: 700;
-            transition: color 0.3s;
-        }
-        .footer-link:hover {
-            color: #2563eb;
-            text-decoration: none;
-        }
-        @media (max-width: 768px) {
-            .login-circle {
-                width: 370px;
-                height: 370px;
-                padding: 25px;
-            }
-            .site-footer {
-                flex-direction: column;
-                gap: 8px;
-                text-align: center;
-                padding: 12px 15px;
-            }
-            .footer-right {
-                flex-direction: column;
-                gap: 5px;
-            }
-        }
-    </style>
-</head>
-<body oncontextmenu="return false;"> <!-- রাইট ক্লিক ডিজেবল করার জন্য -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SmartPOS Dashboard</title> 
+  <!-- ✅ favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><path fill='%23275efe' d='M416 208c0-45.9-34.5-83.8-79.1-89.2C318.4 79.5 275.6 48 224 48c-61.9 0-112 50.1-112 112 0 7.8 .8 15.4 2.4 22.8C51.5 195.4 16 242.3 16 296c0 61.9 50.1 112 112 112h288c53 0 96-43 96-96 0-43.1-28.1-79.5-67-91.8z'/><path fill='%23ffffff' d='M256 192l-80 80h48v96h64v-96h48l-80-80z'/></svg>">  
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Cinzel:wght@700;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+<style>
+  * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+  }
 
-    <div class="login-circle" id="loginContainer">
-        <form class="form-content" id="formContent" onsubmit="handleLogin(event)">
-            <div class="brand-header">
-                <span class="brand-title">SIGN IN v2 </span>
-            </div>
-            <div class="input-group">
-                <input type="text" id="username" placeholder="Username" required autocomplete="username">
-            </div>
-            <div class="input-group">
-                <input type="password" id="password" placeholder="Password" required autocomplete="current-password">
-                <i class="fa-solid fa-eye toggle-password" id="togglePassword" onclick="togglePasswordVisibility()"></i>
-            </div>
-            <div class="error-msg" id="errorMsg">Invalid username or password!</div>
-            <button type="submit" class="btn-submit" id="submitBtn">
-                <span>Login</span>
-            </button>
-        </form>
+  body {
+    background: #e4ebf5;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    overflow-x: hidden;
+    zoom: 1.0; /* Light 5% Zoom applied */
+  }
+
+  header {
+    background: #e4ebf5;
+    color: #1e3a8a;
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 10px 5px 20px rgba(203, 205, 209, 0.6);
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 10;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+  }
+
+  header img { 
+      height: 45px; 
+      border-radius: 8px; 
+  }
+  
+  header .company-name { 
+      font-family: 'Cinzel', serif;
+      font-size: 24px; 
+      font-weight: 900; 
+      margin-left: 12px;
+      color: #1e3a8a;
+      letter-spacing: 2px;
+      text-shadow: 1px 1px 2px #cbced1, -1px -1px 2px #ffffff;
+  }
+
+  main {
+    flex: 1;
+    display: flex;
+    gap: 10px;
+    justify-content: flex-start;
+    align-items: stretch;
+    padding: 15px;
+    margin-top: 80px;
+    margin-bottom: 60px;
+  }
+
+  .icon-grid {
+    display: grid;
+    gap: 15px;
+    justify-items: center;
+    align-items: center;
+  }
+
+  /* Full access users grid (jems) */
+  .icon-grid.full-access {
+    grid-template-columns: repeat(2, 150px);
+  }
+
+  /* Partial permission users grid */
+  .icon-grid.partial-access {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  }
+
+  .icon-card {
+    background: #e4ebf5;
+    padding: 20px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 6px 6px 14px #cbced1, -6px -6px 14px #ffffff;
+    transition: all 0.2s ease;
+    width: 100%;
+    height: 100%;
+  }
+
+  .icon-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 4px 4px 10px #cbced1, -4px -4px 10px #ffffff;
+    color: #2563eb;
+  }
+
+  .icon-card:active {
+    box-shadow: inset 4px 4px 8px #cbced1, inset -4px -4px 8px #ffffff;
+  }
+
+  .icon-card i { font-size: 36px; color: #275efe; margin-bottom: 10px; }
+  .icon-card span { font-weight: 600; color: #334155; text-align: center; font-size: 14px; }
+
+  /* Right-Side Fixed Box Style */
+  .image-box {
+    flex: 1;
+    background: #e4ebf5;
+    border-radius: 16px;
+    box-shadow: inset 6px 6px 12px #cbced1, inset -6px -6px 12px #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 25px;
+    position: relative;
+    overflow: hidden;
+    min-height: 560px;
+  }
+
+  .ecosystem-container {
+    position: relative;
+    width: 100%;
+    max-width: 620px;
+    height: 440px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Ultimate Stylish Futuristic Font Smart POS Badge Positioned at Absolute Right-Top Corner */
+  .pos-stylish-brand {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 24px;
+    font-weight: 900;
+    color: #1e3a8a;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    z-index: 5;
+    background: #e4ebf5;
+    padding: 10px 18px;
+    border-bottom-left-radius: 16px;
+    border-top-right-radius: 16px;
+    box-shadow: -4px 4px 10px #cbced1, 4px -4px 10px #ffffff;
+    text-shadow: 1px 1px 2px #cbced1, -1px -1px 2px #ffffff;
+  }
+
+  /* Top Cloud Hub */
+  .pos-cloud-hub {
+    position: absolute;
+    top: 45px;
+    width: 78px;
+    height: 78px;
+    background: #e4ebf5;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 8px 8px 16px #beccde, -8px -8px 16px #ffffff;
+    padding: 15px;
+    z-index: 5;
+  }
+
+  .pos-cloud-hub svg {
+    width: 38px;
+    height: 38px;
+    filter: drop-shadow(0px 2px 4px rgba(39, 94, 254, 0.3));
+  }
+
+  /* Center Server Hub */
+  .pos-server-hub {
+    position: absolute;
+    top: 175px;
+    width: 82px;
+    height: 82px;
+    background: #e4ebf5;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 10px 10px 20px #beccde, -10px -10px 20px #ffffff;
+    color: #275efe;
+    font-size: 32px;
+    z-index: 5;
+    animation: pulseServer 3s infinite ease-in-out;
+  }
+
+  @keyframes pulseServer {
+    0%, 100% { box-shadow: 10px 10px 20px #beccde, -10px -10px 20px #ffffff, 0 0 0 0 rgba(39, 94, 254, 0.25); }
+    50% { box-shadow: 10px 10px 20px #beccde, -10px -10px 20px #ffffff, 0 0 0 14px rgba(39, 94, 254, 0); }
+  }
+
+  /* Clean Connected Nodes */
+  .eco-node {
+    position: absolute;
+    width: 46px;
+    height: 46px;
+    background: #e4ebf5;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 5px 5px 12px #cbced1, -5px -5px 12px #ffffff;
+    color: #275efe;
+    font-size: 19px;
+    z-index: 3;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .eco-node i {
+    opacity: 0.80;
+    transition: all 0.3s;
+  }
+
+  .eco-node:hover {
+    transform: scale(1.2) translateY(-3px);
+    color: #1e3a8a;
+    box-shadow: 7px 7px 15px #cbced1, -7px -7px 15px #ffffff;
+    z-index: 6;
+  }
+
+  .eco-node:hover i {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+
+  /* Distributed Coordinates */
+  .node-database    { top: 100px; left: 15px; }      
+  .node-security    { top: 100px; right: 15px; }     
+  .node-customer    { top: 185px; left: 2px; }     
+  .node-userctrl    { top: 185px; right: 2px; }    
+  .node-pos-term    { top: 275px; left: 15px; }  
+  .node-mobile      { top: 275px; right: 15px; }   
+  .node-api         { bottom: 30px; left: 100px; }         
+  .node-analytics   { bottom: 30px; right: 100px; }    
+  .node-printer     { bottom: 25px; left: 225px; }     
+  .node-help        { bottom: 25px; right: 225px; }         
+
+  /* SVG Network Connection Lines */
+  .ecosystem-svg-lines {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .eco-line {
+    stroke: #9cb8d9;
+    stroke-width: 2;
+    stroke-dasharray: 5;
+    animation: dashAnimation 18s linear infinite;
+  }
+
+  @keyframes dashAnimation {
+    to {
+      stroke-dashoffset: -200;
+    }
+  }
+
+  .site-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #e4ebf5;
+    padding: 14px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0px -5px 20px rgba(203, 205, 209, 0.6);
+    font-size: 12px;
+    color: #627490;
+    font-weight: 500;
+    border-top: 1px solid rgba(255, 255, 255, 0.6);
+    z-index: 10;
+  }
+  .footer-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+      color: #1e3a8a;
+  }
+  .footer-left i {
+      color: #275efe;
+      font-size: 14px;
+  }
+  .footer-right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+  }
+  .footer-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+  }
+  .footer-item i {
+      color: #275efe;
+  }
+  .footer-item strong {
+      color: #334155;
+  }
+  .footer-link {
+      color: #334155;
+      text-decoration: none;
+      font-weight: 700;
+      transition: color 0.3s;
+  }
+  .footer-link:hover {
+      color: #2563eb;
+      text-decoration: none;
+  }
+
+  @media (max-width: 768px) {
+      .site-footer {
+          flex-direction: column;
+          gap: 8px;
+          text-align: center;
+          padding: 12px 15px;
+      }
+      .footer-right {
+          flex-direction: column;
+          gap: 5px;
+      }
+  }
+
+  @media (max-width: 900px) {
+    main {
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      margin-top: 90px;
+      margin-bottom: 120px;
+    }
+    .icon-grid.full-access {
+      grid-template-columns: repeat(2, 1fr);
+      width: 100%;
+    }
+    .icon-grid.partial-access {
+      grid-template-columns: repeat(2, 1fr);
+      width: 100%;
+    }
+    .image-box {
+      width: 100%;
+      min-height: 460px;
+      margin-top: 10px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<script>
+  // Check login
+  const loggedInUser = JSON.parse(localStorage.getItem('tbdits_user'));
+  if (!loggedInUser) {
+    window.location.replace('https://www-tbdits.github.io/cloudpos.tbdits.com/');
+  }
+</script>
+
+<header>
+  <div class="company-info" style="display:flex; align-items:center; width:100%; justify-content:space-between;">
+    <!-- Company Logo + Name -->
+    <div style="display:flex; align-items:center;">
+      <img src="images/TB.png" alt=" " />
+      <div class="company-name">TECH BD IT SOLUTIONS</div>
     </div>
 
-    <footer class="site-footer">
-        <div class="footer-left">
-            <i class="fa-solid fa-cloud-arrow-up"></i>
-            <span>Smart POS</span>
-        </div>
-        <div class="footer-right">
-            <div class="footer-item">
-                <i class="fa-solid fa-headset"></i>
-                <span>Need Help? Call: <strong>+880 9638665205</strong></span>
-            </div>
-            <div class="footer-item">
-                <i class="fa-solid fa-code-branch"></i>
-                <span>System by: <strong>Tech bd it solutions</strong></span>
-            </div>
-            <div class="footer-item">
-                <i class="fa-solid fa-globe"></i>
-                <span>System by: <a href="https://www-tbdits.github.io/techbditsolutions.com/" target="_blank" class="footer-link">www.techbditsolutions.com</a></span>
-            </div>
-        </div>
-    </footer>
+    <!-- User Display -->
+    <div style="display:flex; align-items:center; gap:6px; font-weight:600; color:#334155; font-size:15px;">
+      <span>Welcome,</span>
+      <span id="userDisplay" style="color:#2563eb; font-weight:700;"></span>
+    </div>
+  </div>
+</header>
 
-    <script>
-        // রাইট ক্লিক এবং F12 / Inspect রোধ করার প্রাথমিক স্ক্রিপ্ট
-        document.addEventListener('keydown', function(event) {
-            if (event.keyCode === 123 || (event.ctrlKey && event.shiftKey && (event.keyCode === 73 || event.keyCode === 74)) || (event.ctrlKey && event.keyCode === 85)) {
-                event.preventDefault();
-                return false;
-            }
-        });
+<main>
+  <div class="icon-grid" id="iconGrid"></div>
+  
+  <!-- Right Side Box with Top-Right Corner Stylish Font Smart POS Brand Badge -->
+  <div class="image-box">
+    <!-- Stylish Futuristic Font Title at Absolute Top-Right Corner -->
+    <div class="pos-stylish-brand">Smart POS</div>
 
-        function togglePasswordVisibility() {
-            const p = document.getElementById('password');
-            const i = document.getElementById('togglePassword');
-            if (p.type === 'password') {
-                p.type = 'text';
-                i.classList.replace('fa-eye', 'fa-eye-slash');
-            } else {
-                p.type = 'password';
-                i.classList.replace('fa-eye-slash', 'fa-eye');
-            }
+    <div class="ecosystem-container">
+      <!-- SVG Network Connection Lines -->
+      <svg class="ecosystem-svg-lines" viewBox="0 0 620 420">
+        <!-- Cloud to Server Trunk -->
+        <line x1="310" y1="84" x2="310" y2="175" class="eco-line" stroke-width="2.5" />
+        
+        <!-- Server to Distributed Nodes -->
+        <line x1="310" y1="216" x2="40" y2="120" class="eco-line" />
+        <line x1="310" y1="216" x2="580" y2="120" class="eco-line" />
+        <line x1="310" y1="216" x2="25" y2="205" class="eco-line" />
+        <line x1="310" y1="216" x2="595" y2="205" class="eco-line" />
+        <line x1="310" y1="216" x2="40" y2="295" class="eco-line" />
+        <line x1="310" y1="216" x2="580" y2="295" class="eco-line" />
+        <line x1="310" y1="216" x2="125" y2="375" class="eco-line" />
+        <line x1="310" y1="216" x2="495" y2="375" class="eco-line" />
+        <line x1="310" y1="216" x2="250" y2="385" class="eco-line" />
+        <line x1="310" y1="216" x2="370" y2="385" class="eco-line" />
+      </svg>
+
+      <!-- Top Cloud Hub -->
+      <div class="pos-cloud-hub" title="Cloud Hub">
+        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><path fill='%23275efe' d='M416 208c0-45.9-34.5-83.8-79.1-89.2C318.4 79.5 275.6 48 224 48c-61.9 0-112 50.1-112 112 0 7.8 .8 15.4 2.4 22.8C51.5 195.4 16 242.3 16 296c0 61.9 50.1 112 112 112h288c53 0 96-43 96-96 0-43.1-28.1-79.5-67-91.8z'/><path fill='%23ffffff' d='M256 192l-80 80h48v96h64v-96h48l-80-80z'/></svg>
+      </div>
+
+      <!-- Core Server Hub -->
+      <div class="pos-server-hub" title="Core Server">
+        <i class='bx bx-server'></i>
+      </div>
+
+      <!-- Clean Connected Nodes -->
+      <div class="eco-node node-database" title="Database SQL"><i class='bx bx-data'></i></div>
+      <div class="eco-node node-security" title="Security & Shield"><i class='bx bx-shield-quarter'></i></div>
+      <div class="eco-node node-customer" title="Customer Management"><i class='bx bxs-user-detail'></i></div>
+      <div class="eco-node node-userctrl" title="User Control"><i class='bx bxs-user-check'></i></div>
+      <div class="eco-node node-pos-term" title="POS Terminal"><i class='bx bx-desktop'></i></div>
+      <div class="eco-node node-mobile" title="Mobile App Ecosystem"><i class='bx bx-mobile-alt'></i></div>
+      <div class="eco-node node-api" title="API Gateway"><i class='bx bx-transfer-alt'></i></div>
+      <div class="eco-node node-analytics" title="Business Analytics"><i class='bx bx-pie-chart-alt-2'></i></div>
+      <div class="eco-node node-printer" title="Receipt Printer"><i class='bx bx-printer'></i></div>
+      <div class="eco-node node-help" title="Help & Support (?)"><i class='bx bx-help-circle'></i></div>
+    </div>
+  </div>
+</main>
+
+<!-- Dynamic Multi-Popup Container -->
+<div id="popupManager"></div>
+
+<!-- Minimized Bottom-Right Dock Container for Multiple Windows -->
+<div id="minimizedDock" style="position: fixed; bottom: 15px; right: 15px; display: flex; flex-direction: column-reverse; gap: 8px; z-index: 10000; align-items: flex-end; pointer-events: none;"></div>
+
+<script>
+  const userDisplay = document.getElementById('userDisplay');
+  if(loggedInUser) userDisplay.textContent = loggedInUser.username;
+
+  const features = [
+    { id: 'reports', label: 'Sales Reports', icon: 'bx bxs-file', link: 'reports.html' },
+    { id: 'sales', label: 'Sales of Point', icon: 'bx bxs-cart', link: 'ColudPOS.html' },
+    { id: 'customers', label: 'Customers', icon: 'bx bxs-user', link: 'customers.html' },
+    { id: 'products', label: 'Products', icon: 'bx bxs-box', link: 'products.html' },
+    { id: 'user-permission', label: 'User Control', icon: 'bx bxs-user-check', link: 'UserControl.html' },
+    { id: 'inventory', label: 'Inventory', icon: 'bx bxs-data', link: 'inventory.html' },
+    { id: 'help', label: 'Help', icon: 'bx bxs-help-circle', link: 'help.html' },
+    { id: 'logout', label: 'Logout', icon: 'bx bxs-log-out-circle' }
+  ];
+
+  const iconGrid = document.getElementById('iconGrid');
+  const popupManager = document.getElementById('popupManager');
+  const minimizedDock = document.getElementById('minimizedDock');
+
+  const fullAccessUsers = ['jems']; 
+  const isFullAccess = fullAccessUsers.includes(loggedInUser.username);
+
+  // Set grid class
+  if(isFullAccess){
+    iconGrid.classList.add('full-access');
+  }else{
+    iconGrid.classList.add('partial-access');
+  }
+
+  // Persistent state management using sessionStorage so refresh won't lose windows
+  let activeWindowsState = JSON.parse(sessionStorage.getItem('tbdits_active_windows')) || {};
+
+  // Render icons
+  iconGrid.innerHTML = '';
+  features.forEach(f => {
+    if(f.label !== 'Logout' && !isFullAccess && (!loggedInUser.permissions || !loggedInUser.permissions.includes(f.label))) return;
+
+    const card = document.createElement('div');
+    card.className = 'icon-card';
+    card.innerHTML = `<i class='${f.icon}'><span></span></i><span>${f.label}</span>`;
+    card.onclick = () => {
+      if(f.id === 'logout'){
+        sessionStorage.removeItem('tbdits_active_windows');
+        localStorage.removeItem('tbdits_logged_in');
+        localStorage.removeItem('tbdits_user');
+        window.location.replace('index.html');
+      } else if(f.link){
+        openPopup(f.id, f.label, f.link, 'open');
+      }
+    };
+    iconGrid.appendChild(card);
+  });
+
+  const openWindows = {};
+
+  function saveState() {
+    const stateObj = {};
+    for (let id in openWindows) {
+      stateObj[id] = {
+        label: openWindows[id].label,
+        link: openWindows[id].link,
+        status: openWindows[id].status // 'open' or 'minimized'
+      };
+    }
+    sessionStorage.setItem('tbdits_active_windows', JSON.stringify(stateObj));
+  }
+
+  function openPopup(id, label, link, status = 'open') {
+    if (openWindows[id]) {
+      openWindows[id].status = status;
+      if (status === 'open') {
+        openWindows[id].overlay.style.display = 'flex';
+        if (openWindows[id].dockItem) {
+          openWindows[id].dockItem.remove();
+          openWindows[id].dockItem = null;
         }
+      } else {
+        openWindows[id].overlay.style.display = 'none';
+        createDockItem(id);
+      }
+      saveState();
+      return;
+    }
 
-        // অবস্কেটেড বা এনক্রিপ্টেড লজিক যেন সাধারণ চোখে পাসওয়ার্ড বা ইউজারনেম দেখা না যায়
-        const _0x3a4b = ['jems', '6735', 'tbdits_users', 'tbdits_logged_in', 'tbdits_user', 'exit-animation', 'Dashboard.html'];
-        function handleLogin(event) {
-            event.preventDefault();
-            const u = document.getElementById('username').value.trim();
-            const p = document.getElementById('password').value.trim();
-            const c = document.getElementById('loginContainer');
-            const e = document.getElementById('errorMsg');
-            const b = document.getElementById('submitBtn');
+    const overlay = document.createElement('div');
+    overlay.style.cssText = "position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.6); z-index: 9999; display: flex; justify-content: center; align-items: center;";
 
-            const customUsers = JSON.parse(localStorage.getItem(_0x3a4b[2])) || [];
-            const defUsers = [{ username: _0x3a4b[0], password: _0x3a4b[1], permissions: ['Sales Reports', 'Sales of Point', 'Customers', 'Products', 'User Control', 'Inventory', 'Help', 'Logout'] }];
-            const allUsers = [...defUsers, ...customUsers];
+    const content = document.createElement('div');
+    content.style.cssText = "width: 100%; height: 100%; background: #e4ebf5; position: relative; display: flex; flex-direction: column; box-shadow: 0 10px 30px rgba(0,0,0,0.3);";
 
-            const found = allUsers.find(x => x.username === u && x.password === p);
+    // Slim Popup Header Bar (Height 32px)
+    const topBar = document.createElement('div');
+    topBar.style.cssText = "height: 32px; background: #e4ebf5; border-bottom: 1px solid rgba(255,255,255,0.8); display: flex; align-items: center; justify-content: space-between; padding: 0 15px; box-shadow: 0px 2px 6px rgba(203, 205, 209, 0.4); z-index: 1000;";
 
-            if (found) {
-                e.style.display = 'none';
-                b.disabled = true;
-                b.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Logging in...`;
+    const titleSpan = document.createElement('span');
+    titleSpan.textContent = label;
+    titleSpan.style.cssText = "font-family: 'Cinzel', serif; font-size: 13px; font-weight: 900; color: #1e3a8a; letter-spacing: 1px;";
 
-                localStorage.setItem(_0x3a4b[3], 'true');
-                localStorage.setItem(_0x3a4b[4], JSON.stringify(found));
-                c.classList.add(_0x3a4b[5]);
+    const btnGroup = document.createElement('div');
+    btnGroup.style.cssText = "display: flex; gap: 6px;";
 
-                setTimeout(() => {
-                    window.location.href = _0x3a4b[6];
-                }, 450);
-            } else {
-                e.style.display = 'block';
-                const pf = document.getElementById('password');
-                pf.value = '';
-                pf.focus();
-            }
-        }
-    </script>
+    // Slim Neumorphic Minimize Button
+    const minBtn = document.createElement('button');
+    minBtn.innerHTML = "<i class='bx bx-minus'></i>";
+    minBtn.title = "Minimize";
+    minBtn.style.cssText = "background: #e4ebf5; color: #1e3a8a; border: none; width: 22px; height: 22px; border-radius: 5px; cursor: pointer; font-size: 13px; font-weight: bold; display: flex; align-items: center; justify-content: center; box-shadow: 2px 2px 5px #cbced1, -2px -2px 5px #ffffff; transition: all 0.2s;";
+    minBtn.onmouseover = () => minBtn.style.color = '#2563eb';
+    minBtn.onmouseout = () => minBtn.style.color = '#1e3a8a';
+    minBtn.onclick = () => minimizeWindow(id);
+
+    // Slim Neumorphic Close Button
+    const closeBtn = document.createElement('button');
+    closeBtn.innerHTML = "<i class='bx bx-x'></i>";
+    closeBtn.title = "Close";
+    closeBtn.style.cssText = "background: #e4ebf5; color: #ef4444; border: none; width: 22px; height: 22px; border-radius: 5px; cursor: pointer; font-size: 16px; font-weight: bold; display: flex; align-items: center; justify-content: center; box-shadow: 2px 2px 5px #cbced1, -2px -2px 5px #ffffff; transition: all 0.2s;";
+    closeBtn.onmouseover = () => closeBtn.style.transform = 'scale(1.05)';
+    closeBtn.onmouseout = () => closeBtn.style.transform = 'scale(1)';
+    closeBtn.onclick = () => closeWindow(id);
+
+    btnGroup.appendChild(minBtn);
+    btnGroup.appendChild(closeBtn);
+    topBar.appendChild(titleSpan);
+    topBar.appendChild(btnGroup);
+
+    const iframe = document.createElement('iframe');
+    iframe.src = link;
+    iframe.style.cssText = "width:100%; flex: 1; border:none; background: #fff;";
+
+    content.appendChild(topBar);
+    content.appendChild(iframe);
+    overlay.appendChild(content);
+    popupManager.appendChild(overlay);
+
+    openWindows[id] = { overlay: overlay, label: label, link: link, status: status, dockItem: null };
+
+    if (status === 'minimized') {
+      overlay.style.display = 'none';
+      createDockItem(id);
+    } else {
+      overlay.style.display = 'flex';
+    }
+    saveState();
+  }
+
+  function minimizeWindow(id) {
+    const win = openWindows[id];
+    if (!win) return;
+
+    win.overlay.style.display = 'none';
+    win.status = 'minimized';
+    createDockItem(id);
+    saveState();
+  }
+
+  function createDockItem(id) {
+    const win = openWindows[id];
+    if (!win) return;
+
+    if (win.dockItem) {
+      win.dockItem.remove();
+    }
+
+    const dockItem = document.createElement('div');
+    dockItem.style.cssText = "pointer-events: auto; background: #e4ebf5; color: #1e3a8a; padding: 8px 14px; border-radius: 10px; box-shadow: 4px 4px 10px #cbced1, -4px -4px 10px #ffffff; cursor: pointer; display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 12px; border: 1px solid rgba(255,255,255,0.8); transition: all 0.2s;";
+    dockItem.innerHTML = `<i class='bx bx-window-alt' style="font-size: 15px; color: #275efe;"></i><span>${win.label}</span><i class='bx bx-expand' style="font-size: 13px; color: #627490; margin-left: 3px;"></i>`;
+    
+    dockItem.onclick = () => {
+      win.overlay.style.display = 'flex';
+      win.status = 'open';
+      dockItem.remove();
+      win.dockItem = null;
+      saveState();
+    };
+
+    minimizedDock.appendChild(dockItem);
+    win.dockItem = dockItem;
+  }
+
+  function closeWindow(id) {
+    const win = openWindows[id];
+    if (!win) return;
+
+    win.overlay.remove();
+    if (win.dockItem) {
+      win.dockItem.remove();
+    }
+    delete openWindows[id];
+    saveState();
+  }
+
+  // Restore state on page load (prevents data loss on refresh)
+  window.addEventListener('DOMContentLoaded', () => {
+    if (activeWindowsState) {
+      for (let id in activeWindowsState) {
+        const item = activeWindowsState[id];
+        openPopup(id, item.label, item.link, item.status);
+      }
+    }
+  });
+</script>
+
+<footer class="site-footer">
+    <div class="footer-left">
+        <i class="fa-solid fa-cloud-arrow-up"></i>
+        <span>Smart POS</span>
+    </div>
+    <div class="footer-right">
+        <div class="footer-item">
+            <i class="fa-solid fa-headset"></i>
+            <span>Need Help? Call: <strong>+880 9638665205</strong></span>
+        </div>
+        <div class="footer-item">
+            <i class="fa-solid fa-code-branch"></i>
+            <span>System by: <strong>Tech bd it solutions</strong></span>
+        </div>
+        <div class="footer-item">
+            <i class="fa-solid fa-globe"></i>
+            <span>System by: <a href="https://www-tbdits.github.io/techbditsolutions.com/" target="_blank" class="footer-link">www.techbditsolutions.com</a></span>
+        </div>
+    </div>
+</footer>
+
 </body>
 </html>
