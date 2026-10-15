@@ -25,6 +25,7 @@
     flex-direction: column;
     min-height: 100vh;
     overflow-x: hidden;
+    zoom: 1.0; /* Light 5% Zoom applied */
   }
 
   header {
@@ -34,7 +35,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0px 5px 20px rgba(203, 205, 209, 0.6);
+    box-shadow: 10px 5px 20px rgba(203, 205, 209, 0.6);
     position: fixed;
     top: 0;
     width: 100%;
@@ -43,7 +44,7 @@
   }
 
   header img { 
-      height: 42px; 
+      height: 45px; 
       border-radius: 8px; 
   }
   
@@ -60,10 +61,10 @@
   main {
     flex: 1;
     display: flex;
-    gap: 20px;
+    gap: 10px;
     justify-content: flex-start;
     align-items: stretch;
-    padding: 20px;
+    padding: 15px;
     margin-top: 80px;
     margin-bottom: 60px;
   }
@@ -223,7 +224,7 @@
   }
 
   .eco-node i {
-    opacity: 0.85;
+    opacity: 0.80;
     transition: all 0.3s;
   }
 
@@ -480,8 +481,8 @@
     iconGrid.classList.add('partial-access');
   }
 
-  // Active windows tracker
-  const openWindows = {};
+  // Persistent state management using sessionStorage so refresh won't lose windows
+  let activeWindowsState = JSON.parse(sessionStorage.getItem('tbdits_active_windows')) || {};
 
   // Render icons
   iconGrid.innerHTML = '';
@@ -493,23 +494,45 @@
     card.innerHTML = `<i class='${f.icon}'><span></span></i><span>${f.label}</span>`;
     card.onclick = () => {
       if(f.id === 'logout'){
+        sessionStorage.removeItem('tbdits_active_windows');
         localStorage.removeItem('tbdits_logged_in');
         localStorage.removeItem('tbdits_user');
         window.location.replace('index.html');
       } else if(f.link){
-        openPopup(f.id, f.label, f.link);
+        openPopup(f.id, f.label, f.link, 'open');
       }
     };
     iconGrid.appendChild(card);
   });
 
-  function openPopup(id, label, link) {
+  const openWindows = {};
+
+  function saveState() {
+    const stateObj = {};
+    for (let id in openWindows) {
+      stateObj[id] = {
+        label: openWindows[id].label,
+        link: openWindows[id].link,
+        status: openWindows[id].status // 'open' or 'minimized'
+      };
+    }
+    sessionStorage.setItem('tbdits_active_windows', JSON.stringify(stateObj));
+  }
+
+  function openPopup(id, label, link, status = 'open') {
     if (openWindows[id]) {
-      openWindows[id].overlay.style.display = 'flex';
-      if (openWindows[id].dockItem) {
-        openWindows[id].dockItem.remove();
-        openWindows[id].dockItem = null;
+      openWindows[id].status = status;
+      if (status === 'open') {
+        openWindows[id].overlay.style.display = 'flex';
+        if (openWindows[id].dockItem) {
+          openWindows[id].dockItem.remove();
+          openWindows[id].dockItem = null;
+        }
+      } else {
+        openWindows[id].overlay.style.display = 'none';
+        createDockItem(id);
       }
+      saveState();
       return;
     }
 
@@ -562,7 +585,15 @@
     overlay.appendChild(content);
     popupManager.appendChild(overlay);
 
-    openWindows[id] = { overlay: overlay, label: label, dockItem: null };
+    openWindows[id] = { overlay: overlay, label: label, link: link, status: status, dockItem: null };
+
+    if (status === 'minimized') {
+      overlay.style.display = 'none';
+      createDockItem(id);
+    } else {
+      overlay.style.display = 'flex';
+    }
+    saveState();
   }
 
   function minimizeWindow(id) {
@@ -570,6 +601,18 @@
     if (!win) return;
 
     win.overlay.style.display = 'none';
+    win.status = 'minimized';
+    createDockItem(id);
+    saveState();
+  }
+
+  function createDockItem(id) {
+    const win = openWindows[id];
+    if (!win) return;
+
+    if (win.dockItem) {
+      win.dockItem.remove();
+    }
 
     const dockItem = document.createElement('div');
     dockItem.style.cssText = "pointer-events: auto; background: #e4ebf5; color: #1e3a8a; padding: 8px 14px; border-radius: 10px; box-shadow: 4px 4px 10px #cbced1, -4px -4px 10px #ffffff; cursor: pointer; display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 12px; border: 1px solid rgba(255,255,255,0.8); transition: all 0.2s;";
@@ -577,8 +620,10 @@
     
     dockItem.onclick = () => {
       win.overlay.style.display = 'flex';
+      win.status = 'open';
       dockItem.remove();
       win.dockItem = null;
+      saveState();
     };
 
     minimizedDock.appendChild(dockItem);
@@ -594,7 +639,18 @@
       win.dockItem.remove();
     }
     delete openWindows[id];
+    saveState();
   }
+
+  // Restore state on page load (prevents data loss on refresh)
+  window.addEventListener('DOMContentLoaded', () => {
+    if (activeWindowsState) {
+      for (let id in activeWindowsState) {
+        const item = activeWindowsState[id];
+        openPopup(id, item.label, item.link, item.status);
+      }
+    }
+  });
 </script>
 
 <footer class="site-footer">
