@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SmartPOSv5</title>  
+<title>SmartPOS - v6</title>  
   <!-- ✅ favicon -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><path fill='%23275efe' d='M416 208c0-45.9-34.5-83.8-79.1-89.2C318.4 79.5 275.6 48 224 48c-61.9 0-112 50.1-112 112 0 7.8 .8 15.4 2.4 22.8C51.5 195.4 16 242.3 16 296c0 61.9 50.1 112 112 112h288c53 0 96-43 96-96 0-43.1-28.1-79.5-67-91.8z'/><path fill='%23ffffff' d='M256 192l-80 80h48v96h64v-96h48l-80-80z'/></svg>">  
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Cinzel:wght@700;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
@@ -351,41 +351,20 @@
 <body>
 
 <script>
-  // Robust Security & Clean Login Verification
-  const targetRedirectLink = 'https://www-tbdits.github.io/smartpos.com.bd/';
+  const targetRedirectLink = 'index.html'; 
+
   const isLogged = localStorage.getItem('tbdits_logged_in');
   const loggedInUser = JSON.parse(localStorage.getItem('tbdits_user') || 'null');
   
-  // Check if user is logged in properly
   if (!isLogged || !loggedInUser) {
-    localStorage.removeItem('tbdits_logged_in');
-    localStorage.removeItem('tbdits_user');
-    sessionStorage.removeItem('tbdits_active_session');
     window.location.replace(targetRedirectLink);
   }
-
-  // Prevent Ctrl+Shift+T or Browser Tab restoration bypass using sessionStorage flag check
-  if (!sessionStorage.getItem('tbdits_active_session')) {
-    // If session flag doesn't exist in this tab session, it means tab was restored via Ctrl+Shift+T
-    localStorage.removeItem('tbdits_logged_in');
-    localStorage.removeItem('tbdits_user');
-    window.location.replace(targetRedirectLink);
-  }
-
-  // Set active session flag for current tab
-  sessionStorage.setItem('tbdits_active_session', 'true');
-
-  window.addEventListener('pageshow', function(event) {
-    if (event.persisted || !localStorage.getItem('tbdits_logged_in') || !sessionStorage.getItem('tbdits_active_session')) {
-      window.location.replace(targetRedirectLink);
-    }
-  });
 </script>
 
 <header>
   <div class="company-info" style="display:flex; align-items:center; width:100%; justify-content:space-between;">
     <div style="display:flex; align-items:center;">
-      <img src="images/TB.png" alt="Logo" />
+      <img src="images/TB.png" alt="Logo" onerror="this.style.display='none'" />
       <div class="company-name">TECH BD IT SOLUTIONS</div>
     </div>
     <div style="display:flex; align-items:center; gap:6px; font-weight:600; color:#334155; font-size:15px;">
@@ -483,7 +462,6 @@
         localStorage.removeItem('tbdits_active_windows');
         localStorage.removeItem('tbdits_logged_in');
         localStorage.removeItem('tbdits_user');
-        sessionStorage.removeItem('tbdits_active_session');
         window.location.replace(targetRedirectLink);
       } else if(f.link){
         openPopup(f.id, f.label, f.link, 'open');
@@ -622,12 +600,13 @@
     saveState();
   }
 
-  // Restore active windows and minimized states properly on load
   window.addEventListener('DOMContentLoaded', () => {
     if (activeWindowsState) {
       for (let id in activeWindowsState) {
         const item = activeWindowsState[id];
-        openPopup(id, item.label, item.link, item.status);
+        if(item.status === 'open' || item.status === 'minimized') {
+          openPopup(id, item.label, item.link, item.status);
+        }
       }
     }
   });
