@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SmartPOS</title> 
+<title>SmartPOSv3</title>  
   <!-- ✅ favicon -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><path fill='%23275efe' d='M416 208c0-45.9-34.5-83.8-79.1-89.2C318.4 79.5 275.6 48 224 48c-61.9 0-112 50.1-112 112 0 7.8 .8 15.4 2.4 22.8C51.5 195.4 16 242.3 16 296c0 61.9 50.1 112 112 112h288c53 0 96-43 96-96 0-43.1-28.1-79.5-67-91.8z'/><path fill='%23ffffff' d='M256 192l-80 80h48v96h64v-96h48l-80-80z'/></svg>">  
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Cinzel:wght@700;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
@@ -25,7 +25,6 @@
     flex-direction: column;
     min-height: 100vh;
     overflow-x: hidden;
-    zoom: 1.0; /* Light 5% Zoom applied */
   }
 
   header {
@@ -47,7 +46,7 @@
       height: 45px; 
       border-radius: 8px; 
   }
-  
+
   header .company-name { 
       font-family: 'Cinzel', serif;
       font-size: 24px; 
@@ -76,12 +75,10 @@
     align-items: center;
   }
 
-  /* Full access users grid (jems) */
   .icon-grid.full-access {
     grid-template-columns: repeat(2, 150px);
   }
 
-  /* Partial permission users grid */
   .icon-grid.partial-access {
     grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   }
@@ -114,7 +111,6 @@
   .icon-card i { font-size: 36px; color: #275efe; margin-bottom: 10px; }
   .icon-card span { font-weight: 600; color: #334155; text-align: center; font-size: 14px; }
 
-  /* Right-Side Fixed Box Style */
   .image-box {
     flex: 1;
     background: #e4ebf5;
@@ -141,7 +137,6 @@
     justify-content: center;
   }
 
-  /* Ultimate Stylish Futuristic Font Smart POS Badge Positioned at Absolute Right-Top Corner */
   .pos-stylish-brand {
     position: absolute;
     top: 0px;
@@ -161,7 +156,6 @@
     text-shadow: 1px 1px 2px #cbced1, -1px -1px 2px #ffffff;
   }
 
-  /* Top Cloud Hub */
   .pos-cloud-hub {
     position: absolute;
     top: 45px;
@@ -183,7 +177,6 @@
     filter: drop-shadow(0px 2px 4px rgba(39, 94, 254, 0.3));
   }
 
-  /* Center Server Hub */
   .pos-server-hub {
     position: absolute;
     top: 175px;
@@ -206,7 +199,6 @@
     50% { box-shadow: 10px 10px 20px #beccde, -10px -10px 20px #ffffff, 0 0 0 14px rgba(39, 94, 254, 0); }
   }
 
-  /* Clean Connected Nodes */
   .eco-node {
     position: absolute;
     width: 46px;
@@ -235,13 +227,7 @@
     z-index: 6;
   }
 
-  .eco-node:hover i {
-    opacity: 1;
-    transform: scale(1.1);
-  }
-
-  /* Distributed Coordinates */
-  .node-database    { top: 100px; left: 15px; }      
+  .node-database    { top: 100px; left: 15px; }     
   .node-security    { top: 100px; right: 15px; }     
   .node-customer    { top: 185px; left: 2px; }     
   .node-userctrl    { top: 185px; right: 2px; }    
@@ -252,7 +238,6 @@
   .node-printer     { bottom: 25px; left: 225px; }     
   .node-help        { bottom: 25px; right: 225px; }         
 
-  /* SVG Network Connection Lines */
   .ecosystem-svg-lines {
     position: absolute;
     top: 0;
@@ -328,7 +313,6 @@
   }
   .footer-link:hover {
       color: #2563eb;
-      text-decoration: none;
   }
 
   @media (max-width: 768px) {
@@ -352,11 +336,7 @@
       margin-top: 90px;
       margin-bottom: 120px;
     }
-    .icon-grid.full-access {
-      grid-template-columns: repeat(2, 1fr);
-      width: 100%;
-    }
-    .icon-grid.partial-access {
+    .icon-grid.full-access, .icon-grid.partial-access {
       grid-template-columns: repeat(2, 1fr);
       width: 100%;
     }
@@ -371,22 +351,30 @@
 <body>
 
 <script>
-  // Check login
-  const loggedInUser = JSON.parse(localStorage.getItem('tbdits_user'));
-  if (!loggedInUser) {
-    window.location.replace('https://www-tbdits.github.io/cloudpos.tbdits.com/');
+  // Secure Login Check with Cache & Back-Button Prevention
+  const targetRedirectLink = 'https://www-tbdits.github.io/smartpos.com.bd/';
+  const loggedInUser = JSON.parse(localStorage.getItem('tbdits_user') || sessionStorage.getItem('tbdits_session_active'));
+  
+  if (!loggedInUser || !localStorage.getItem('tbdits_logged_in')) {
+    window.location.replace(targetRedirectLink);
+  } else {
+    // Keep active session in sessionStorage to prevent direct back-button access after close
+    sessionStorage.setItem('tbdits_session_active', JSON.stringify(loggedInUser));
   }
+
+  window.addEventListener('pageshow', function(event) {
+    if (event.persisted || !localStorage.getItem('tbdits_logged_in')) {
+      window.location.replace(targetRedirectLink);
+    }
+  });
 </script>
 
 <header>
   <div class="company-info" style="display:flex; align-items:center; width:100%; justify-content:space-between;">
-    <!-- Company Logo + Name -->
     <div style="display:flex; align-items:center;">
-      <img src="images/TB.png" alt=" " />
+      <img src="images/TB.png" alt="Logo" />
       <div class="company-name">TECH BD IT SOLUTIONS</div>
     </div>
-
-    <!-- User Display -->
     <div style="display:flex; align-items:center; gap:6px; font-weight:600; color:#334155; font-size:15px;">
       <span>Welcome,</span>
       <span id="userDisplay" style="color:#2563eb; font-weight:700;"></span>
@@ -396,19 +384,13 @@
 
 <main>
   <div class="icon-grid" id="iconGrid"></div>
-  
-  <!-- Right Side Box with Top-Right Corner Stylish Font Smart POS Brand Badge -->
+
   <div class="image-box">
-    <!-- Stylish Futuristic Font Title at Absolute Top-Right Corner -->
     <div class="pos-stylish-brand">Smart POS</div>
 
     <div class="ecosystem-container">
-      <!-- SVG Network Connection Lines -->
       <svg class="ecosystem-svg-lines" viewBox="0 0 620 420">
-        <!-- Cloud to Server Trunk -->
         <line x1="310" y1="84" x2="310" y2="175" class="eco-line" stroke-width="2.5" />
-        
-        <!-- Server to Distributed Nodes -->
         <line x1="310" y1="216" x2="40" y2="120" class="eco-line" />
         <line x1="310" y1="216" x2="580" y2="120" class="eco-line" />
         <line x1="310" y1="216" x2="25" y2="205" class="eco-line" />
@@ -421,17 +403,14 @@
         <line x1="310" y1="216" x2="370" y2="385" class="eco-line" />
       </svg>
 
-      <!-- Top Cloud Hub -->
       <div class="pos-cloud-hub" title="Cloud Hub">
         <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><path fill='%23275efe' d='M416 208c0-45.9-34.5-83.8-79.1-89.2C318.4 79.5 275.6 48 224 48c-61.9 0-112 50.1-112 112 0 7.8 .8 15.4 2.4 22.8C51.5 195.4 16 242.3 16 296c0 61.9 50.1 112 112 112h288c53 0 96-43 96-96 0-43.1-28.1-79.5-67-91.8z'/><path fill='%23ffffff' d='M256 192l-80 80h48v96h64v-96h48l-80-80z'/></svg>
       </div>
 
-      <!-- Core Server Hub -->
       <div class="pos-server-hub" title="Core Server">
         <i class='bx bx-server'></i>
       </div>
 
-      <!-- Clean Connected Nodes -->
       <div class="eco-node node-database" title="Database SQL"><i class='bx bx-data'></i></div>
       <div class="eco-node node-security" title="Security & Shield"><i class='bx bx-shield-quarter'></i></div>
       <div class="eco-node node-customer" title="Customer Management"><i class='bx bxs-user-detail'></i></div>
@@ -441,15 +420,12 @@
       <div class="eco-node node-api" title="API Gateway"><i class='bx bx-transfer-alt'></i></div>
       <div class="eco-node node-analytics" title="Business Analytics"><i class='bx bx-pie-chart-alt-2'></i></div>
       <div class="eco-node node-printer" title="Receipt Printer"><i class='bx bx-printer'></i></div>
-      <div class="eco-node node-help" title="Help & Support (?)"><i class='bx bx-help-circle'></i></div>
+      <div class="eco-node node-help" title="Help & Support"><i class='bx bx-help-circle'></i></div>
     </div>
   </div>
 </main>
 
-<!-- Dynamic Multi-Popup Container -->
 <div id="popupManager"></div>
-
-<!-- Minimized Bottom-Right Dock Container for Multiple Windows -->
 <div id="minimizedDock" style="position: fixed; bottom: 15px; right: 15px; display: flex; flex-direction: column-reverse; gap: 8px; z-index: 10000; align-items: flex-end; pointer-events: none;"></div>
 
 <script>
@@ -474,30 +450,29 @@
   const fullAccessUsers = ['jems']; 
   const isFullAccess = fullAccessUsers.includes(loggedInUser.username);
 
-  // Set grid class
   if(isFullAccess){
     iconGrid.classList.add('full-access');
   }else{
     iconGrid.classList.add('partial-access');
   }
 
-  // Persistent state management using sessionStorage so refresh won't lose windows
-  let activeWindowsState = JSON.parse(sessionStorage.getItem('tbdits_active_windows')) || {};
+  // Persistent state management using localStorage so refresh retains windows and minimize state
+  let activeWindowsState = JSON.parse(localStorage.getItem('tbdits_active_windows')) || {};
 
-  // Render icons
   iconGrid.innerHTML = '';
   features.forEach(f => {
     if(f.label !== 'Logout' && !isFullAccess && (!loggedInUser.permissions || !loggedInUser.permissions.includes(f.label))) return;
 
     const card = document.createElement('div');
     card.className = 'icon-card';
-    card.innerHTML = `<i class='${f.icon}'><span></span></i><span>${f.label}</span>`;
+    card.innerHTML = `<i class='${f.icon}'></i><span>${f.label}</span>`;
     card.onclick = () => {
       if(f.id === 'logout'){
-        sessionStorage.removeItem('tbdits_active_windows');
+        localStorage.removeItem('tbdits_active_windows');
         localStorage.removeItem('tbdits_logged_in');
         localStorage.removeItem('tbdits_user');
-        window.location.replace('index.html');
+        sessionStorage.removeItem('tbdits_session_active');
+        window.location.replace('https://www-tbdits.github.io/smartpos.com.bd/');
       } else if(f.link){
         openPopup(f.id, f.label, f.link, 'open');
       }
@@ -513,10 +488,10 @@
       stateObj[id] = {
         label: openWindows[id].label,
         link: openWindows[id].link,
-        status: openWindows[id].status // 'open' or 'minimized'
+        status: openWindows[id].status
       };
     }
-    sessionStorage.setItem('tbdits_active_windows', JSON.stringify(stateObj));
+    localStorage.setItem('tbdits_active_windows', JSON.stringify(stateObj));
   }
 
   function openPopup(id, label, link, status = 'open') {
@@ -542,7 +517,6 @@
     const content = document.createElement('div');
     content.style.cssText = "width: 100%; height: 100%; background: #e4ebf5; position: relative; display: flex; flex-direction: column; box-shadow: 0 10px 30px rgba(0,0,0,0.3);";
 
-    // Slim Popup Header Bar (Height 32px)
     const topBar = document.createElement('div');
     topBar.style.cssText = "height: 32px; background: #e4ebf5; border-bottom: 1px solid rgba(255,255,255,0.8); display: flex; align-items: center; justify-content: space-between; padding: 0 15px; box-shadow: 0px 2px 6px rgba(203, 205, 209, 0.4); z-index: 1000;";
 
@@ -553,22 +527,16 @@
     const btnGroup = document.createElement('div');
     btnGroup.style.cssText = "display: flex; gap: 6px;";
 
-    // Slim Neumorphic Minimize Button
     const minBtn = document.createElement('button');
     minBtn.innerHTML = "<i class='bx bx-minus'></i>";
     minBtn.title = "Minimize";
     minBtn.style.cssText = "background: #e4ebf5; color: #1e3a8a; border: none; width: 22px; height: 22px; border-radius: 5px; cursor: pointer; font-size: 13px; font-weight: bold; display: flex; align-items: center; justify-content: center; box-shadow: 2px 2px 5px #cbced1, -2px -2px 5px #ffffff; transition: all 0.2s;";
-    minBtn.onmouseover = () => minBtn.style.color = '#2563eb';
-    minBtn.onmouseout = () => minBtn.style.color = '#1e3a8a';
     minBtn.onclick = () => minimizeWindow(id);
 
-    // Slim Neumorphic Close Button
     const closeBtn = document.createElement('button');
     closeBtn.innerHTML = "<i class='bx bx-x'></i>";
     closeBtn.title = "Close";
     closeBtn.style.cssText = "background: #e4ebf5; color: #ef4444; border: none; width: 22px; height: 22px; border-radius: 5px; cursor: pointer; font-size: 16px; font-weight: bold; display: flex; align-items: center; justify-content: center; box-shadow: 2px 2px 5px #cbced1, -2px -2px 5px #ffffff; transition: all 0.2s;";
-    closeBtn.onmouseover = () => closeBtn.style.transform = 'scale(1.05)';
-    closeBtn.onmouseout = () => closeBtn.style.transform = 'scale(1)';
     closeBtn.onclick = () => closeWindow(id);
 
     btnGroup.appendChild(minBtn);
@@ -617,7 +585,7 @@
     const dockItem = document.createElement('div');
     dockItem.style.cssText = "pointer-events: auto; background: #e4ebf5; color: #1e3a8a; padding: 8px 14px; border-radius: 10px; box-shadow: 4px 4px 10px #cbced1, -4px -4px 10px #ffffff; cursor: pointer; display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 12px; border: 1px solid rgba(255,255,255,0.8); transition: all 0.2s;";
     dockItem.innerHTML = `<i class='bx bx-window-alt' style="font-size: 15px; color: #275efe;"></i><span>${win.label}</span><i class='bx bx-expand' style="font-size: 13px; color: #627490; margin-left: 3px;"></i>`;
-    
+
     dockItem.onclick = () => {
       win.overlay.style.display = 'flex';
       win.status = 'open';
@@ -642,7 +610,6 @@
     saveState();
   }
 
-  // Restore state on page load (prevents data loss on refresh)
   window.addEventListener('DOMContentLoaded', () => {
     if (activeWindowsState) {
       for (let id in activeWindowsState) {
@@ -669,7 +636,7 @@
         </div>
         <div class="footer-item">
             <i class="fa-solid fa-globe"></i>
-            <span>System by: <a href="https://www-tbdits.github.io/techbditsolutions.com/" target="_blank" class="footer-link">www.techbditsolutions.com</a></span>
+            <span>Website: <a href="https://www-tbdits.github.io/techbditsolutions.com/" target="_blank" class="footer-link">www.techbditsolutions.com</a></span>
         </div>
     </div>
 </footer>
