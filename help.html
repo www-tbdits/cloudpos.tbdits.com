@@ -1,138 +1,110 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Help</title>
+<title>Help & Support</title>
 <style>
   body{
-    margin:0;
-    padding:0;
-    background:#f6f7f9;
-    font-family:"Inter", "Segoe UI", Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f6f7f9;
+    font-family: "Inter", "Segoe UI", Arial, sans-serif;
   }
 
   .msg-box{
-    max-width:1200px;
-    margin:5px auto;
-    background:#ffffff;
-    padding:32px;
-    border-radius:8px;
-    border:1px solid #dfe3e8;
-    box-shadow:0 4px 18px rgba(0,0,0,0.06);
+    max-width: 1200px;
+    margin: 10px auto;
+    background: #ffffff;
+    padding: 32px;
+    border-radius: 8px;
+    border: 1px solid #dfe3e8;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.06);
   }
 
   .msg-title{
-    font-size:20px;
-    font-weight:600;
-    margin-bottom:18px;
-    color:#1c3d74;
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 18px;
+    color: #1c3d74;
   }
 
   .msg-content p{
-    font-size:15px;
-    color:#333;
-    line-height:1.65;
-    margin-bottom:16px;
+    font-size: 15px;
+    color: #333;
+    line-height: 1.65;
+    margin-bottom: 16px;
   }
 
   .msg-content ul{
-    list-style:none;
-    padding-left:0;
-    margin-bottom:18px;
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 18px;
   }
 
   .msg-content ul li{
-    padding:6px 10;
-    font-size:15px;
-    color:#333;
+    padding: 6px 0;
+    font-size: 15px;
+    color: #333;
   }
 
   a{
-    color:#0a6acb;
-    text-decoration:none;
+    color: #0a6acb;
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
   }
 
   .divider{
-    height:1px;
-    background:#e4e7eb;
-    margin:28px 0;
-    border:none;
+    height: 1px;
+    background: #e4e7eb;
+    margin: 28px 0;
+    border: none;
   }
 
   .update-box{
-    background:# ;
-    border:1px solid #e2e6ea;
-    padding:18px;
-    border-radius:6px;
+    background: #fafbfc;
+    border: 1px solid #e2e6ea;
+    padding: 18px;
+    border-radius: 6px;
   }
 
   .update-btn{
-    color:#fff;
-    border:none;
-    padding:12px 26px;
-    border-radius:6px;
-    font-size:16px;
-    font-weight:600;
-    cursor:pointer;
-    transition:0.25s;
-    margin-top:10px;
-    background-color: #0d1b3d; /* Normal deep color */
+    color: #fff;
+    border: none;
+    padding: 12px 26px;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.25s;
+    margin-top: 10px;
+    background-color: #0d1b3d;
     position: relative;
   }
 
   .update-btn:disabled{
-    cursor:not-allowed;
-    opacity:0.7;
-  }
-
-  .tooltip{
-    visibility:hidden;
-    background-color:#333;
-    color:#fff;
-    text-align:center;
-    border-radius:4px;
-    padding:4px 8px;
-    position:absolute;
-    top:-30px;
-    left:50%;
-    transform:translateX(-50%);
-    font-size:13px;
-    white-space:nowrap;
-    z-index:10;
-  }
-
-  .update-btn:hover .tooltip{
-    visibility:visible;
-  }
-
-  .loading-dot{
-    display:inline-block;
-    width:6px;
-    height:6px;
-    margin-left:3px;
-    background:#fff;
-    border-radius:50%;
-    animation:blink 1s infinite;
-  }
-
-  .loading-dot:nth-child(2){ animation-delay:0.2s; }
-  .loading-dot:nth-child(3){ animation-delay:0.4s; }
-
-  @keyframes blink{
-    0%,50%,100%{opacity:0;}
-    25%,75%{opacity:1;}
+    cursor: not-allowed;
+    opacity: 0.7;
   }
 
   .notification{
-    margin-top:20px;
-    padding:12px;
-    background:#dff0d8;
-    border:1px solid #c3e6cb;
-    border-radius:6px;
-    color:#155724;
-    display:none;
-    font-size:15px;
+    margin-top: 15px;
+    padding: 12px;
+    background: #dff0d8;
+    border: 1px solid #c3e6cb;
+    border-radius: 6px;
+    color: #155724;
+    display: none;
+    font-size: 15px;
+  }
+
+  #updateStatus {
+    margin-top: 12px;
+    font-weight: 600;
+    color: #333;
   }
 </style>
 </head>
@@ -158,83 +130,81 @@
   <!-- Software Update -->
   <div class="msg-title">Software Update</div>
   <div class="update-box">
-    <p>Check for updates below. The update button will become active when an update is available.</p>
-    <button id="updateBtn" class="update-btn">
-      Update
-      <span class="tooltip">Click to update</span>
+    <p>Check for updates below. The update button will become active when a new system update is available.</p>
+    <button id="updateBtn" class="update-btn" disabled>
+      Update Now
     </button>
-    <p id="updateStatus"></p>
-    <div class="notification" id="notification">Update available now!</div>
+    <p id="updateStatus">Checking for updates...</p>
+    <div class="notification" id="notification"></div>
   </div>
 
 </div>
+
 <script>
-const UPDATE_DELAY_SEC = 86400; // 1 day until update available
 const updateBtn = document.getElementById("updateBtn");
 const statusEl = document.getElementById("updateStatus");
 const notification = document.getElementById("notification");
 
-// Load saved version
-let major=1, minor=0, patch=0;
-if(localStorage.getItem('cloudPOSVersion')){
-    let saved = localStorage.getItem('cloudPOSVersion').split('.');
-    major=parseInt(saved[0]); minor=parseInt(saved[1]); patch=parseInt(saved[2]);
-}
+// আপনার GitHub লাইভ ভার্সন ফাইলের লিংক এখানে বসাবেন (যেমন: https://yourusername.github.io/your-repo-name/version.json)
+const versionFileUrl = 'https://yourusername.github.io/your-repo-name/version.json';
 
-// Load last update timestamp
-let lastUpdateTime = parseInt(localStorage.getItem('cloudPOSLastUpdate')) || 0;
+// GitHub থেকে লেটেস্ট ভার্সন চেক করার ফাংশন
+async function checkGitHubUpdates() {
+    try {
+        const response = await fetch(versionFileUrl + '?t=' + new Date().getTime()); // ক্যাশ এড়ানোর জন্য টাইমস্ট্যাম্প দেওয়া হলো
+        if (!response.ok) throw new Error("Network response was not ok");
+        
+        const data = await response.json();
+        const serverVersion = data.version; // GitHub-এর version.json ফাইলের ভার্সন
 
-// Get remaining seconds until update available
-function getRemainingSeconds(){
-    const now = new Date().getTime();
-    const elapsed = Math.floor((now - lastUpdateTime)/1000);
-    return Math.max(UPDATE_DELAY_SEC - elapsed,0);
-}
+        // ইউজারের ব্রাউজারে সেভ থাকা বর্তমান ভার্সন
+        let currentVersion = localStorage.getItem('cloudPOSVersion') || "1.0.0";
+        statusEl.innerHTML = `Current version: v${currentVersion}`;
 
-// Update button state & color
-function updateButtonState(){
-    const remaining = getRemainingSeconds();
-
-    // Always show current version
-    statusEl.innerHTML = `Current version: v${major}.${minor}.${patch}`;
-
-    if(remaining > 0){
-        updateBtn.disabled = true;
-        updateBtn.style.backgroundColor = "#28a745"; // green
-        notification.style.display = "none";
-    } else {
-        updateBtn.disabled = false;
-        updateBtn.style.backgroundColor = "#e74c3c"; // red
-        notification.style.display = "block"; // show update notification
+        if (currentVersion !== serverVersion) {
+            updateBtn.disabled = false;
+            updateBtn.style.backgroundColor = "#e74c3c"; // লাল রঙ (আপডেট এভেইলেবল)
+            notification.style.display = "block";
+            notification.innerHTML = `New update available (v${serverVersion})! Click to update your system.`;
+        } else {
+            updateBtn.disabled = true;
+            updateBtn.style.backgroundColor = "#28a745"; // সবুজ রঙ (আপডেটেড)
+            notification.style.display = "none";
+            statusEl.innerHTML = `System is up to date (v${currentVersion})`;
+        }
+    } catch (error) {
+        statusEl.innerHTML = "Could not check for updates. Check your internet connection.";
+        console.log("Update check failed", error);
     }
 }
 
-// Real-time countdown
-setInterval(updateButtonState, 500);
+// পেজ লোড হওয়ার সময় চেক করবে
+checkGitHubUpdates();
 
-// Update button click
-updateBtn.addEventListener("click", function(){
+// আপডেট বাটনে ক্লিক করলে যা হবে
+updateBtn.addEventListener("click", async function(){
     updateBtn.disabled = true;
-    updateBtn.style.backgroundColor = "#34495e"; // loading dark
-    statusEl.innerHTML = "Updating...";
+    updateBtn.style.backgroundColor = "#34495e"; 
+    statusEl.innerHTML = "Updating system files...";
+    notification.style.display = "none";
 
-    setTimeout(()=>{
-        // Update version
-        patch++;
-        if(patch >= 100){ patch = 0; minor++; }
-        const version = `${major}.${minor}.${patch}`;
+    try {
+        // আবার GitHub থেকে লেটেস্ট ভার্সন এনে সেভ করে নেবে
+        const response = await fetch(versionFileUrl + '?t=' + new Date().getTime());
+        const data = await response.json();
+        
+        setTimeout(()=>{
+            localStorage.setItem('cloudPOSVersion', data.version);
+            statusEl.innerHTML = `Current version: v${data.version}`;
+            alert("Update completed successfully!");
+            location.reload(); // পেজ রিলোড হয়ে নতুন ফাইল ও সিস্টেম লোড হবে
+        }, 2000);
 
-        // Save version & timestamp
-        localStorage.setItem('cloudPOSVersion', version);
-        lastUpdateTime = new Date().getTime();
-        localStorage.setItem('cloudPOSLastUpdate', lastUpdateTime);
-
-        // Reset button & status
-        updateBtn.style.backgroundColor = "#28a745"; // green again
-        statusEl.innerHTML = `Current version: v${version}`; // always visible
-        notification.style.display = "none";
-
-    }, 2000); // simulate 2 second loading
+    } catch (error) {
+        alert("Update failed! Please try again.");
+        updateBtn.disabled = false;
+        updateBtn.style.backgroundColor = "#e74c3c";
+    }
 });
 </script>
 
