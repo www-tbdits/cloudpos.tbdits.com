@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SmartPOS - v7</title>  
+<title>SmartPOS - v8/title>  
   <!-- ✅ favicon -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><path fill='%23275efe' d='M416 208c0-45.9-34.5-83.8-79.1-89.2C318.4 79.5 275.6 48 224 48c-61.9 0-112 50.1-112 112 0 7.8 .8 15.4 2.4 22.8C51.5 195.4 16 242.3 16 296c0 61.9 50.1 112 112 112h288c53 0 96-43 96-96 0-43.1-28.1-79.5-67-91.8z'/><path fill='%23ffffff' d='M256 192l-80 80h48v96h64v-96h48l-80-80z'/></svg>">  
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Cinzel:wght@700;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
@@ -39,7 +39,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 10px 5px 20px rgba(203, 205, 209, 0.6);
+    box-shadow: 10px 5px 25px rgba(203, 205, 209, 0.6);
     position: fixed;
     top: 0;
     width: 100%;
@@ -48,7 +48,7 @@
   }
 
   header img { 
-      height: 75px; 
+      height: 78px; 
       border-radius: 2px; 
   }
 
@@ -60,6 +60,88 @@
       letter-spacing: 1.5px;
       -webkit-text-stroke: 0.5px #1e3a8a;
       text-shadow: 1px 1px 2px #cbced1, -1px -1px 2px #ffffff;
+  }
+
+  /* User Profile & Dropdown Menu Styles */
+  .user-profile-container {
+      position: relative;
+      display: inline-block;
+  }
+
+  .user-profile-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #e4ebf5;
+      padding: 8px 14px;
+      border-radius: 30px;
+      cursor: pointer;
+      box-shadow: 4px 4px 10px #cbced1, -4px -4px 10px #ffffff;
+      transition: all 0.2s ease;
+      border: 1px solid rgba(255, 255, 255, 0.6);
+  }
+
+  .user-profile-btn:hover {
+      box-shadow: 2px 2px 6px #cbced1, -2px -2px 6px #ffffff;
+  }
+
+  .user-profile-btn i.user-icon {
+      font-size: 20px;
+      color: #275efe;
+      background: #e4ebf5;
+      padding: 8px;
+      border-radius: 50%;
+      box-shadow: inset 2px 2px 5px #cbced1, inset -2px -2px 5px #ffffff;
+  }
+
+  .user-dropdown-menu {
+      position: absolute;
+      right: 0;
+      top: 55px;
+      background: #e4ebf5;
+      border-radius: 12px;
+      box-shadow: 8px 8px 16px #cbced1, -8px -8px 16px #ffffff;
+      width: 180px;
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+      z-index: 100;
+      border: 1px solid rgba(255, 255, 255, 0.8);
+  }
+
+  .user-dropdown-menu.show {
+      display: flex;
+  }
+
+  .user-dropdown-item {
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #334155;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s;
+  }
+
+  .user-dropdown-item:hover {
+      background: #d6e0ef;
+      color: #2563eb;
+  }
+
+  .user-dropdown-item i {
+      font-size: 16px;
+      color: #275efe;
+  }
+
+  .user-dropdown-item.logout-btn i {
+      color: #ef4444;
+  }
+
+  .user-dropdown-item.logout-btn:hover {
+      color: #ef4444;
   }
 
   main {
@@ -286,7 +368,6 @@
   .site-footer span, .site-footer a, .site-footer strong {
       font-family: 'Plus Jakarta Sans', sans-serif !important;
   }
-  /* ফুটারের আইকনগুলোর ফন্ট ঠিক রাখার জন্য ফিক্সড কোড */
   .site-footer i {
       font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands", sans-serif !important;
       font-weight: 900 !important;
@@ -377,13 +458,32 @@
 <header>
   <div class="company-info" style="display:flex; align-items:center; width:100%; justify-content:space-between;">
     <div style="display:flex; align-items:center;">
-      <img src="images/PosLogo.png" alt="Logo" onerror="this.style.display='none'" />
+      <img src="images/TB.png" alt="Logo" onerror="this.style.display='none'" />
       <div class="company-name">TECH BD IT SOLUTIONS</div>
     </div>
-    <div style="display:flex; align-items:center; gap:6px; font-weight:600; color:#334155; font-size:15px;">
-      <span>Welcome,</span>
-      <span id="userDisplay" style="color:#2563eb; font-weight:700;"></span>
+    
+    <!-- ইউজার আইকন ও ড্রপডাউন মেনু সেকশন -->
+    <div class="user-profile-container" id="userProfileContainer">
+      <div class="user-profile-btn" id="userProfileBtn">
+        <i class='bx bxs-user user-icon'></i>
+        <div style="display:flex; align-items:center; gap:4px; font-weight:600; color:#334155; font-size:14px;">
+          <span id="userDisplay" style="color:#2563eb; font-weight:700;"></span>
+        </div>
+        <i class='bx bx-chevron-down' style="font-size: 16px; color: #627490;"></i>
+      </div>
+      
+      <div class="user-dropdown-menu" id="userDropdownMenu">
+        <div class="user-dropdown-item" id="changePasswordBtn">
+          <i class='bx bxs-key'></i>
+          <span>Password Change</span>
+        </div>
+        <div class="user-dropdown-item logout-btn" id="dropdownLogoutBtn">
+          <i class='bx bxs-log-out-circle'></i>
+          <span>Logout</span>
+        </div>
+      </div>
     </div>
+
   </div>
 </header>
 
@@ -437,6 +537,37 @@
   const userDisplay = document.getElementById('userDisplay');
   if(loggedInUser) userDisplay.textContent = loggedInUser.username;
 
+  // ইউজার প্রোফাইল ড্রপডাউন টগল করার ফাংশনালিটি
+  const userProfileBtn = document.getElementById('userProfileBtn');
+  const userDropdownMenu = document.getElementById('userDropdownMenu');
+
+  userProfileBtn.onclick = (e) => {
+    e.stopPropagation();
+    userDropdownMenu.classList.toggle('show');
+  };
+
+  window.onclick = () => {
+    if(userDropdownMenu.classList.contains('show')) {
+      userDropdownMenu.classList.remove('show');
+    }
+  };
+
+  // লগআউট হ্যান্ডলার
+  function handleLogout() {
+    localStorage.removeItem('tbdits_active_windows');
+    localStorage.removeItem('tbdits_logged_in');
+    localStorage.removeItem('tbdits_user');
+    window.location.replace(targetRedirectLink);
+  }
+
+  document.getElementById('dropdownLogoutBtn').onclick = handleLogout;
+
+  // পাসওয়ার্ড চেঞ্জ বাটন ক্লিক ইভেন্ট (এখানে আপনি পাসওয়ার্ড পরিবর্তনের কোনো পেজ বা পপআপ সেট করতে পারেন)
+  document.getElementById('changePasswordBtn').onclick = () => {
+    alert("Password change feature can be linked here!");
+    // চাইলে আপনার পাসওয়ার্ড পরিবর্তনের ফাইলটি ওপেন করতে পারেন: openPopup('password', 'Change Password', 'password.html', 'open');
+  };
+
   const features = [
     { id: 'reports', label: 'Sales Reports', icon: 'bx bxs-file', link: 'reports.html' },
     { id: 'sales', label: 'Sales of Point', icon: 'bx bxs-cart', link: 'ColudPOS.html' },
@@ -472,10 +603,7 @@
     card.innerHTML = `<i class='${f.icon}'></i><span>${f.label}</span>`;
     card.onclick = () => {
       if(f.id === 'logout'){
-        localStorage.removeItem('tbdits_active_windows');
-        localStorage.removeItem('tbdits_logged_in');
-        localStorage.removeItem('tbdits_user');
-        window.location.replace(targetRedirectLink);
+        handleLogout();
       } else if(f.link){
         openPopup(f.id, f.label, f.link, 'open');
       }
